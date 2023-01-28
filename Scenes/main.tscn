@@ -1,5 +1,17 @@
-[gd_scene format=3 uid="uid://5bmoadbxex2d"]
+[gd_scene load_steps=3 format=3 uid="uid://5bmoadbxex2d"]
+
+[ext_resource type="PackedScene" uid="uid://d1bu5lfg082v" path="res://Scenes/Player_Controller.tscn" id="1_tyjqe"]
+[ext_resource type="ArrayMesh" uid="uid://c7icycrsd7qgf" path="res://resources/Terrain with stuff.obj" id="2_oyuca"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="test node" type="Node3D" parent="."]
+[node name="Player_Controller" parent="." instance=ExtResource("1_tyjqe")]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.31271, 0)
+use_collision = true
+mesh = ExtResource("2_oyuca")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.943562, 0.132481, -0.303546, -0.0673013, 0.974086, 0.215932, 0.324287, -0.183316, 0.928027, -1.84003, 9.45753, 15.9806)
+light_color = Color(1, 0.623529, 0.368627, 1)

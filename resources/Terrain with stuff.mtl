@@ -1,0 +1,36 @@
+# Created by Kenney (www.kenney.nl)
+
+newmtl default(Clone)
+Kd 0.136 0.255 0.03
+map_Kd Textures/default(Clone).png
+
+newmtl stoneLight(Clone)
+Kd 0.71 0.701 0.84
+
+newmtl stone(Clone)
+Kd 0.571 0.559 0.736
+
+newmtl stoneDark(Clone)
+Kd 0.403 0.39 0.594
+
+newmtl glass(Clone)
+Kd 1 1 1
+
+newmtl metalDark(Clone)
+Kd 0.4 0.388 0.647
+
+newmtl metal(Clone)
+Kd 0.58 0.569 0.769
+
+newmtl foliage(Clone)
+Kd 0 0.654902 0.4862745
+
+newmtl wood(Clone)
+Kd 0.84 0.435 0.305
+
+newmtl woodDark(Clone)
+Kd 0.698 0.316 0.194
+
+newmtl dark(Clone)
+Kd 0.224 0.235 0.275
+

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1bu5lfg082v"]
+
+[ext_resource type="Script" path="res://Scenes/Player_Controller.cs" id="1_3h38l"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sq67c"]
+radius = 0.6
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2t5k0"]
+radius = 0.6
+height = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7ki37"]
+
+[node name="Player_Controller" type="CharacterBody3D"]
+script = ExtResource("1_3h38l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_sq67c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_2t5k0")
+
+[node name="Foot" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.503912, 0)
+shape = SubResource("CylinderShape3D_7ki37")
+
+[node name="Head" type="CollisionShape3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856003, 0)
