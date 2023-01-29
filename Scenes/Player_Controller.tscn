@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1bu5lfg082v"]
+[gd_scene load_steps=8 format=3 uid="uid://d1bu5lfg082v"]
 
 [ext_resource type="Script" path="res://Scenes/Player_Controller.cs" id="1_3h38l"]
+[ext_resource type="PackedScene" uid="uid://5b1842pprn20" path="res://Scenes/gun.tscn" id="2_qnjon"]
+[ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="3_7jfg5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sq67c"]
 radius = 0.6
@@ -12,11 +14,21 @@ height = 3.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7ki37"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v0rbh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("Head:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+
 [node name="Player_Controller" type="CharacterBody3D"]
 script = ExtResource("1_3h38l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_sq67c")
 
@@ -29,5 +41,25 @@ shape = SubResource("CylinderShape3D_7ki37")
 
 [node name="Head" type="CollisionShape3D" parent="."]
 
+[node name="gun" parent="Head" instance=ExtResource("2_qnjon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.2)
+
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856003, 0)
+
+[node name="TextureRect" type="TextureRect" parent="Head/Camera3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.03, 0.03)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("3_7jfg5")
+stretch_mode = 5
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -50)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_v0rbh")
