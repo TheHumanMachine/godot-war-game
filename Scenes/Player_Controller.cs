@@ -22,7 +22,7 @@ public partial class Player_Controller : CharacterBody3D
 		head = GetNode<CollisionShape3D>("Head");
 		animPlayer = GetNode<AnimationPlayer>("Head/gun/AnimationPlayer");
 		healthLabel = GetNode<Label3D>("Health");
-		networkNumber = GetNode<Label3D>("NetworkAuthority");
+		networkNumber = GetNode<Label3D>("NetworkNumber");
 
 		if (!IsMultiplayerAuthority())
 			return;
@@ -53,7 +53,7 @@ public partial class Player_Controller : CharacterBody3D
 					CharacterBody3D hit_player = (CharacterBody3D)hit_thing;
 					int peerID = hit_player.GetMultiplayerAuthority();
 					GD.Print("receive damage being sent to: " + peerID);
-					RpcId(peerID, "ReceiveDamage");
+					hit_player.RpcId(peerID, "ReceiveDamage");
 					
 				}
 			}
@@ -76,6 +76,7 @@ public partial class Player_Controller : CharacterBody3D
 	private void ReceiveDamage() {
 		health = health - 35;
 		GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
+		GD.Print("read internally, sent from " + Multiplayer.GetRemoteSenderId());
 		healthLabel.Text = health.ToString();
 		Position = Vector3.Zero;
 		EmitSignal(SignalName.HealthSignal, health);

@@ -55,7 +55,7 @@ debug_shape_custom_color = Color(0, 0, 1, 1)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_v0rbh")
 
-[node name="NetworkAuthority" type="Label3D" parent="."]
+[node name="NetworkNumber" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12278, 0)
 billboard = 1
 text = "this is a test"
