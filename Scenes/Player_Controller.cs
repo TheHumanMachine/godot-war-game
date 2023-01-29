@@ -3,18 +3,26 @@ using System;
 
 public partial class Player_Controller : CharacterBody3D
 {
+	
+	[Signal]
+	public delegate void HealthSignalEventHandler(int health);
 
 	private Node3D head;
 	private AnimationPlayer animPlayer;
 	private GpuParticles3D muzzleFlash;
 	private RayCast3D raycast;
+	private Label3D healthLabel;
 
-	int health = 100;
+	private Label3D networkNumber;
+
+	private int health = 100;
 
 	public override void _Ready() {
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
 		head = GetNode<CollisionShape3D>("Head");
 		animPlayer = GetNode<AnimationPlayer>("Head/gun/AnimationPlayer");
+		healthLabel = GetNode<Label3D>("Health");
+		networkNumber = GetNode<Label3D>("NetworkAuthority");
 
 		if (!IsMultiplayerAuthority())
 			return;
@@ -38,11 +46,15 @@ public partial class Player_Controller : CharacterBody3D
 
 		if (Input.IsActionJustPressed("shoot") && animPlayer.CurrentAnimation != "shoot") {
 			Rpc(nameof(PlayShootEffects));
+			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
 				GodotObject hit_thing = raycast.GetCollider();
-				if(hit_thing.IsClass("CharacterBody3D") && !hit_thing.IsClass("CSGMesh3D")) {
+				if(hit_thing.IsClass("CharacterBody3D")) {
 					CharacterBody3D hit_player = (CharacterBody3D)hit_thing;
-					RpcId((hit_player.GetMultiplayerAuthority()), "ReceiveDamage");
+					int peerID = hit_player.GetMultiplayerAuthority();
+					GD.Print("receive damage being sent to: " + peerID);
+					RpcId(peerID, "ReceiveDamage");
+					
 				}
 			}
 		}
@@ -50,15 +62,7 @@ public partial class Player_Controller : CharacterBody3D
 
 	public override void _EnterTree() {
 		SetMultiplayerAuthority(int.Parse(this.Name));
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void ReceiveDamage() {
-		health -= 35;
-		if (health <= 0) {
-			health = 3;
-			GlobalPosition = Vector3.Zero;
-		}
+		networkNumber.Text = this.Name;
 	}
 
 
@@ -67,6 +71,20 @@ public partial class Player_Controller : CharacterBody3D
 		animPlayer.Stop();
 		animPlayer.Play("shoot");
 	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	private void ReceiveDamage() {
+		health = health - 35;
+		GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
+		healthLabel.Text = health.ToString();
+		Position = Vector3.Zero;
+		EmitSignal(SignalName.HealthSignal, health);
+		if (health <= 0) {
+			health = 100;
+		}
+	}
+
+
 
 	public float mouseSensitivity = 0.07f;
 	public const float Speed = 10.0f;
