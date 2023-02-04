@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class map : Node
 {
@@ -27,7 +28,6 @@ public partial class map : Node
 	{
 	}
 
-
 	public void UpdateHealthBar(int healthValue) {
 		healthbar.Value = healthValue;
 	}
@@ -39,15 +39,18 @@ public partial class map : Node
 		enet_peer.CreateServer(PORT);
 		Multiplayer.MultiplayerPeer = enet_peer;
 		Multiplayer.PeerConnected += AddPlayer;
+		Multiplayer.PeerDisconnected += RemovePlayer;
 
 		AddPlayer(Multiplayer.GetUniqueId());
+
+		upnpSetup();
 	}
 
 	private void _on_join_button_pressed()
 	{
 		hud.Visible = true;
 		mainMenu.Visible = false;
-		enet_peer.CreateClient("localhost", PORT);
+		enet_peer.CreateClient(addressEntry.Text, PORT);
 		Multiplayer.MultiplayerPeer = enet_peer;
 	}
 
@@ -61,11 +64,49 @@ public partial class map : Node
 		}
 	}
 
+	private void RemovePlayer(long peerID) {
+		var player = GetNodeOrNull(peerID.ToString());
+		if (player != null) {
+			player.QueueFree();
+		}
+	}
+
 	private void _on_multiplayer_spawner_spawned(Node node) {
 		Player_Controller pc = (Player_Controller) node;
 		if (pc.IsMultiplayerAuthority()) {
 			pc.HealthSignal += UpdateHealthBar;
 		}
+	}
+
+	private void upnpSetup() {
+
+		GD.Print("upnp func-ass" );
+
+		var upnp = new Upnp();
+
+		var discoverResult = upnp.Discover();
+
+		//Debug.Assert(discoverResult == (int)Upnp.UpnpResult.Success, "UPNP discover failed; error " + discoverResult);
+
+		/*
+		if (upnp.GetGateway() == null) {
+			GD.Print("Null Gateway");
+
+		}
+
+		if(!upnp.GetGateway().IsValidGateway()) {
+			GD.Print("invalid Gateway");
+
+		}
+		*/
+
+		var mapResult = upnp.AddPortMapping(PORT);
+		
+		//Debug.Assert(mapResult == (int)Upnp.UpnpResult.Success, "UPNP port mapping is bad " + mapResult);
+
+		GD.Print("shit worked, wild. " + upnp.QueryExternalAddress() );
+
+
 	}
 
 }
