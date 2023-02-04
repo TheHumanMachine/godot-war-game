@@ -14,7 +14,7 @@ bg_color = Color(0, 1, 0, 1)
 script = ExtResource("1_vihwr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.943562, 0.132481, -0.303546, -0.0673013, 0.974086, 0.215932, 0.324287, -0.183316, 0.928027, -1.84003, 9.45753, 15.9806)
+transform = Transform3D(0.943562, 0.132481, -0.303546, 0.323158, -0.568974, 0.756199, -0.0725274, -0.811614, -0.579674, -1.84003, 9.45753, 15.9806)
 light_color = Color(1, 0.623529, 0.368627, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

@@ -23,7 +23,8 @@ public partial class Player_Controller : CharacterBody3D
 		animPlayer = GetNode<AnimationPlayer>("Head/gun/AnimationPlayer");
 		healthLabel = GetNode<Label3D>("Health");
 		networkNumber = GetNode<Label3D>("NetworkNumber");
-
+		networkNumber.Text = this.Name;
+		
 		if (!IsMultiplayerAuthority())
 			return;
 
@@ -36,7 +37,7 @@ public partial class Player_Controller : CharacterBody3D
 		if (!IsMultiplayerAuthority())
 			return;
 
-
+		
 		if (@event is InputEventMouseMotion mouse) {
 			RotateY((float)(Math.PI / 180.0 * (-mouse.Relative.X * mouseSensitivity)));
 			head.RotateX((float)(Math.PI / 180.0 * (-mouse.Relative.Y * mouseSensitivity)));
@@ -62,7 +63,7 @@ public partial class Player_Controller : CharacterBody3D
 
 	public override void _EnterTree() {
 		SetMultiplayerAuthority(int.Parse(this.Name));
-		networkNumber.Text = this.Name;
+		
 	}
 
 
