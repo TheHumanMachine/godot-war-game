@@ -15,12 +15,15 @@ public partial class Player_Controller : CharacterBody3D
 
 	private Label3D networkNumber;
 
+	public projectile_weapon gun;
+
 	private int health = 100;
 
 	public override void _Ready() {
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
 		head = GetNode<CollisionShape3D>("Head");
-		animPlayer = GetNode<AnimationPlayer>("Head/gun/AnimationPlayer");
+		//animPlayer = GetNode<AnimationPlayer>("Head/generic_gun/AnimationPlayer");
+		gun = GetNode<projectile_weapon>("Head/projectile_weapon");
 		healthLabel = GetNode<Label3D>("Health");
 		networkNumber = GetNode<Label3D>("NetworkNumber");
 		networkNumber.Text = this.Name;
@@ -45,18 +48,29 @@ public partial class Player_Controller : CharacterBody3D
 
 		}
 
-		if (Input.IsActionJustPressed("shoot") && animPlayer.CurrentAnimation != "shoot") {
+		if (Input.IsActionJustPressed("shoot") && gun.CanShoot()) {
 			Rpc(nameof(PlayShootEffects));
 			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
 				GodotObject hit_thing = raycast.GetCollider();
+				gun.ShootBullet(raycast.GetCollisionPoint());
+				
+
+				//gun.ShootAt(hit_thing.position)
+				
+				//execute command packet or tell gun to shoot or something
+				//this should send the hit_thing to the gun for it to figure out the angle at which to fire it's bullet
+				//or fire it's raycast depending on the type. 
+				//the rest should be handled by the command packet
+
+				/*
 				if(hit_thing.IsClass("CharacterBody3D")) {
 					CharacterBody3D hit_player = (CharacterBody3D)hit_thing;
 					int peerID = hit_player.GetMultiplayerAuthority();
 					GD.Print("receive damage being sent to: " + peerID);
 					hit_player.RpcId(peerID, "ReceiveDamage");
-					
-				}
+s				}
+				*/
 			}
 		}
 	}
@@ -69,21 +83,20 @@ public partial class Player_Controller : CharacterBody3D
 
 	[Rpc(CallLocal = true)]
 	private void PlayShootEffects() {
-		animPlayer.Stop();
-		animPlayer.Play("shoot");
+		gun.PlayShootEffects();
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void ReceiveDamage() {
-		health = health - 35;
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void ReceiveDamage(int damage) {
+		health = health - damage;
 		GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
 		GD.Print("read internally, sent from " + Multiplayer.GetRemoteSenderId());
 		healthLabel.Text = health.ToString();
 		Position = Vector3.Zero;
-		EmitSignal(SignalName.HealthSignal, health);
 		if (health <= 0) {
 			health = 100;
 		}
+		EmitSignal(SignalName.HealthSignal, health);
 	}
 
 
@@ -106,8 +119,8 @@ public partial class Player_Controller : CharacterBody3D
 		// Add the gravity.
 		if (!IsOnFloor()) {
 			velocity.Y -= gravity * (float)delta;
-			if(animPlayer.CurrentAnimation != "shoot")
-				animPlayer.Play("idle");
+			if(gun.CanShoot())
+				gun.Animate("idle");
 		}
 			
 
@@ -123,20 +136,24 @@ public partial class Player_Controller : CharacterBody3D
 		{
 			velocity.X = direction.X * Speed;
 			velocity.Z = direction.Z * Speed;
-			if(animPlayer.CurrentAnimation != "shoot")
-				animPlayer.Play("moving");
+			if(gun.CanShoot())
+				gun.Animate("moving");
 		}
 		else
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-			if(animPlayer.CurrentAnimation != "shoot")
-				animPlayer.Play("idle");
+			if(gun.CanShoot())
+				gun.Animate("idle");
 		}
 
 		Velocity = velocity;
 
 
 		MoveAndSlide();
+	}
+
+	public void SetBulletCommand(BulletCommand bc) {
+		gun.bulletCommand = bc;
 	}
 }

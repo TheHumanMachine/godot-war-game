@@ -1,13 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://5b1842pprn20"]
+[gd_scene load_steps=8 format=3 uid="uid://ikmdiy5coeyp"]
 
-[ext_resource type="PackedScene" uid="uid://cgawapwaw3hfq" path="res://resources/pistol.glb" id="1_wo4vg"]
+[ext_resource type="Script" path="res://Scripts/projectile_weapon.cs" id="1_0lkp2"]
+[ext_resource type="PackedScene" uid="uid://cgawapwaw3hfq" path="res://resources/pistol.glb" id="1_47sd5"]
 
 [sub_resource type="Animation" id="Animation_e2oic"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("pistol:position")
+tracks/0/path = NodePath("gun_model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -19,7 +20,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("pistol:rotation")
+tracks/1/path = NodePath("gun_model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -36,7 +37,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("pistol:position")
+tracks/0/path = NodePath("gun_model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -48,7 +49,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("pistol:rotation")
+tracks/1/path = NodePath("gun_model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -65,7 +66,7 @@ step = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("pistol:position")
+tracks/0/path = NodePath("gun_model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -81,7 +82,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("pistol:position")
+tracks/0/path = NodePath("gun_model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -93,7 +94,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("pistol:rotation")
+tracks/1/path = NodePath("gun_model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -111,10 +112,14 @@ _data = {
 "shoot": SubResource("Animation_sqwc4")
 }
 
-[node name="gun" type="Node3D"]
+[node name="projectile_weapon" type="Node3D"]
+script = ExtResource("1_0lkp2")
 
-[node name="pistol" parent="." instance=ExtResource("1_wo4vg")]
+[node name="gun_model" parent="." instance=ExtResource("1_47sd5")]
 transform = Transform3D(-1.80123e-06, -0.49758, 0.0491388, 0.5, -1.81e-06, 2.22044e-16, 1.77882e-07, 0.0491389, 0.497579, 0.5, -0.25, -0.5)
+
+[node name="muzzle_point" type="Node3D" parent="gun_model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.269092, -0.00380874, -0.578812)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "moving"

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://borex18g5ve5k"]
+
+[ext_resource type="Script" path="res://Scripts/bullet.cs" id="1_lep8i"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bg1nt"]
+radius = 0.06
+height = 0.12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2esfj"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xunio"]
+material = SubResource("StandardMaterial3D_2esfj")
+radius = 0.1
+height = 0.2
+
+[node name="bullet" type="RigidBody3D"]
+gravity_scale = 0.0
+script = ExtResource("1_lep8i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_bg1nt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_xunio")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CapsuleShape3D_bg1nt")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1bu5lfg082v"]
+[gd_scene load_steps=7 format=3 uid="uid://cxr1s6n0qese2"]
 
-[ext_resource type="Script" path="res://Scenes/Player_Controller.cs" id="1_3h38l"]
-[ext_resource type="PackedScene" uid="uid://5b1842pprn20" path="res://Scenes/gun.tscn" id="2_qnjon"]
+[ext_resource type="Script" path="res://Scripts/Player_Controller.cs" id="1_nb05g"]
+[ext_resource type="PackedScene" uid="uid://ikmdiy5coeyp" path="res://Scenes/projectile_weapon.tscn" id="2_fw57c"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sq67c"]
 radius = 0.6
@@ -25,7 +25,7 @@ properties/2/spawn = true
 properties/2/sync = true
 
 [node name="Player_Controller" type="CharacterBody3D"]
-script = ExtResource("1_3h38l")
+script = ExtResource("1_nb05g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 cast_shadow = 0
@@ -41,8 +41,8 @@ shape = SubResource("CylinderShape3D_7ki37")
 [node name="Head" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400394, 0)
 
-[node name="gun" parent="Head" instance=ExtResource("2_qnjon")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.2)
+[node name="projectile_weapon" parent="Head" instance=ExtResource("2_fw57c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.714862, -0.27153)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856003, 0)

@@ -2,7 +2,10 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public partial class map : Node
+
+
+
+public partial class MainGame : Node
 {
 	private PanelContainer mainMenu;
 	private LineEdit addressEntry;
@@ -62,7 +65,11 @@ public partial class map : Node
 		if (player.IsMultiplayerAuthority()) {
 			player.HealthSignal += UpdateHealthBar;
 		}
+
+		player.SetBulletCommand(new BulletCommand(this, player, player.gun));
+
 	}
+
 
 	private void RemovePlayer(long peerID) {
 		var player = GetNodeOrNull(peerID.ToString());
@@ -108,5 +115,16 @@ public partial class map : Node
 
 
 	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	public void SpawnBullet(Player_Controller sourcePlayer, projectile_weapon gun, Vector3 target, int damage, int speed) {
+		GD.Print("Main game received shoot");
+        var b = new bullet(sourcePlayer, gun, damage, speed);
+		gun.GetNode<Node3D>("gun_model/muzzle_point").AddChild(b);
+        b.LookAt(target);
+        //b.shoot = true;
+	}
+
+	
 
 }

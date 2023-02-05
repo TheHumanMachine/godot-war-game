@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvd7lu0n0oh6t"]
+
+[ext_resource type="PackedScene" uid="uid://bbec83usttrb3" path="res://resources/terrain test2.blend" id="2_02w0q"]
+
+[node name="map" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.943562, 0.132481, -0.303546, 0.323158, -0.568974, 0.756199, -0.0725274, -0.811614, -0.579674, -1.84003, 9.45753, 15.9806)
+light_color = Color(1, 0.623529, 0.368627, 1)
+
+[node name="terrain test2" parent="." instance=ExtResource("2_02w0q")]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
