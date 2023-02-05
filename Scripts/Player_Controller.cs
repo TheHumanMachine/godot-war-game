@@ -52,8 +52,14 @@ public partial class Player_Controller : CharacterBody3D
 			Rpc(nameof(PlayShootEffects));
 			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
-				GodotObject hit_thing = raycast.GetCollider();
-				gun.ShootBullet(raycast.GetCollisionPoint());
+				Vector3 hit_thing = raycast.GetCollisionPoint();
+				GD.Print("player controller receive shoot");
+				bullet b = new bullet(this, gun, 10, 1);
+				gun.GetNode<Node3D>("gun_model/muzzle_point").AddChild(b);
+				b.LookAt(hit_thing);
+				b.shoot = true;
+				b.Visible = true;
+				//gun.ShootBullet(raycast.GetCollisionPoint());
 				
 
 				//gun.ShootAt(hit_thing.position)
