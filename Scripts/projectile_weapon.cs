@@ -21,7 +21,7 @@ public partial class projectile_weapon : Node3D
 	}
 
 	public void ShootBullet(Vector3 pos) {
-		GD.Print("Gun received shoot");
+		GD.Print("Gun received shoot on authority " + this.GetMultiplayerAuthority());
 		bulletCommand.Execute(pos);
 	}
 

@@ -10,7 +10,7 @@ public partial class MainGame : Node
 	private PanelContainer mainMenu;
 	private LineEdit addressEntry;
 	private PackedScene player_scene = (PackedScene)GD.Load("res://Scenes/Player_Controller.tscn");
-
+	private PackedScene bulletScene = (PackedScene)GD.Load("res://Scenes/bullet.tscn");
 	private Control hud; 
 	private ProgressBar healthbar;
 
@@ -64,10 +64,8 @@ public partial class MainGame : Node
 
 		if (player.IsMultiplayerAuthority()) {
 			player.HealthSignal += UpdateHealthBar;
+			GD.Print("Multiplayer Authority " + GetMultiplayerAuthority() + " Adding Player");
 		}
-
-		player.SetBulletCommand(new BulletCommand(this, player, player.gun));
-
 	}
 
 
@@ -79,6 +77,10 @@ public partial class MainGame : Node
 	}
 
 	private void _on_multiplayer_spawner_spawned(Node node) {
+		if(!node.IsClass("Player_Controller")) {
+			return;
+		}
+
 		Player_Controller pc = (Player_Controller) node;
 		if (pc.IsMultiplayerAuthority()) {
 			pc.HealthSignal += UpdateHealthBar;
@@ -113,18 +115,6 @@ public partial class MainGame : Node
 
 		GD.Print("shit worked, wild. " + upnp.QueryExternalAddress() );
 
-
 	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	public void SpawnBullet(Player_Controller sourcePlayer, projectile_weapon gun, Vector3 target, int damage, int speed) {
-		GD.Print("Main game received shoot");
-        var b = new bullet(sourcePlayer, gun, damage, speed);
-		gun.GetNode<Node3D>("gun_model/muzzle_point").AddChild(b);
-        b.LookAt(target);
-        //b.shoot = true;
-	}
-
-	
 
 }

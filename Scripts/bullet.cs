@@ -3,32 +3,43 @@ using System;
 
 public partial class bullet : RigidBody3D
 {
-	private Node sourcePlayer;
-	private projectile_weapon gun;
 
+	[Export]
+	private Node sourcePlayer;
+	[Export]
+	private projectile_weapon gun;
+	[Export]
 	private int damage;
+	[Export]
 	private int speed;
 
 	public bool shoot = false;
 
-	public bullet (Node sourcePlayer, projectile_weapon gun, int damage, int speed) {
+
+	private MultiplayerSynchronizer mpSync;
+
+	public bullet () {
+		
+	}
+
+	public void setValues(Node sourcePlayer, projectile_weapon gun, int damage, int speed) {
 		this.sourcePlayer = sourcePlayer;
 		this.gun = gun;
 		this.damage = damage;
 		this.speed = speed;
-		GD.Print("Bullet received shoot");
+		GD.Print("Bullet received shoot from setValues");
 	}
-
 
 
 	public override void _Ready()
 	{
+		mpSync = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+		mpSync.SetMultiplayerAuthority(sourcePlayer.GetMultiplayerAuthority());
 		this.TopLevel = true;
 	}
 
 	public override void _Process(double delta)
 	{
-		GD.Print(GlobalPosition.ToString());
 
 	}
 
@@ -46,6 +57,8 @@ public partial class bullet : RigidBody3D
 			GD.Print("receive damage being sent to: " + peerID);
 			hit_player.RpcId(peerID, "ReceiveDamage", damage); // this should send a param that tells the client how much damage.
 			GD.Print(Position);
+			mpSync.PublicVisibility = false;
+			mpSync.UpdateVisibility();
 			QueueFree();
 			GD.Print("Died because hit player");
 		} else {

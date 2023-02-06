@@ -19,6 +19,8 @@ public partial class Player_Controller : CharacterBody3D
 
 	private int health = 100;
 
+	private PackedScene bulletScene = (PackedScene)GD.Load("res://Scenes/bullet.tscn");
+
 	public override void _Ready() {
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
 		head = GetNode<CollisionShape3D>("Head");
@@ -26,6 +28,7 @@ public partial class Player_Controller : CharacterBody3D
 		gun = GetNode<projectile_weapon>("Head/projectile_weapon");
 		healthLabel = GetNode<Label3D>("Health");
 		networkNumber = GetNode<Label3D>("NetworkNumber");
+		SetBulletCommand(new BulletCommand(this.GetParent<MainGame>(), this, gun));
 		networkNumber.Text = this.Name;
 		
 		if (!IsMultiplayerAuthority())
@@ -53,13 +56,19 @@ public partial class Player_Controller : CharacterBody3D
 			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
 				Vector3 hit_thing = raycast.GetCollisionPoint();
+
+
+				/*
 				GD.Print("player controller receive shoot");
-				bullet b = new bullet(this, gun, 10, 1);
+				bullet b = (bullet)bulletScene.Instantiate();
+				b.setValues(this, gun, 10, 10);
 				gun.GetNode<Node3D>("gun_model/muzzle_point").AddChild(b);
 				b.LookAt(hit_thing);
 				b.shoot = true;
-				b.Visible = true;
-				//gun.ShootBullet(raycast.GetCollisionPoint());
+				*/
+
+				GD.Print(hit_thing + " collision point");
+				gun.ShootBullet(hit_thing);
 				
 
 				//gun.ShootAt(hit_thing.position)
@@ -75,7 +84,7 @@ public partial class Player_Controller : CharacterBody3D
 					int peerID = hit_player.GetMultiplayerAuthority();
 					GD.Print("receive damage being sent to: " + peerID);
 					hit_player.RpcId(peerID, "ReceiveDamage");
-s				}
+				}
 				*/
 			}
 		}
@@ -83,6 +92,7 @@ s				}
 
 	public override void _EnterTree() {
 		SetMultiplayerAuthority(int.Parse(this.Name));
+		
 		
 	}
 
@@ -161,5 +171,6 @@ s				}
 
 	public void SetBulletCommand(BulletCommand bc) {
 		gun.bulletCommand = bc;
+		GD.Print(GetMultiplayerAuthority() + " Authority set bullet command object");
 	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://borex18g5ve5k"]
+[gd_scene load_steps=6 format=3 uid="uid://borex18g5ve5k"]
 
 [ext_resource type="Script" path="res://Scripts/bullet.cs" id="1_lep8i"]
 
@@ -12,9 +12,21 @@ albedo_color = Color(1, 0, 1, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xunio"]
 material = SubResource("StandardMaterial3D_2esfj")
 radius = 0.1
-height = 0.2
+height = 0.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_a4ajm"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:sourcePlayer")
+properties/2/spawn = true
+properties/2/sync = true
 
 [node name="bullet" type="RigidBody3D"]
+collision_layer = 0
 gravity_scale = 0.0
 script = ExtResource("1_lep8i")
 
@@ -22,12 +34,16 @@ script = ExtResource("1_lep8i")
 shape = SubResource("CapsuleShape3D_bg1nt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+transform = Transform3D(10, 0, 0, 0, -4.37114e-07, -10, 0, 10, -4.37114e-07, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_xunio")
 
 [node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("CapsuleShape3D_bg1nt")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_a4ajm")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
