@@ -99,7 +99,8 @@ public partial class Player_Controller : CharacterBody3D
 
 	[Rpc(CallLocal = true)]
 	private void PlayShootEffects() {
-		gun.PlayShootEffects();
+		Vector3 hit_thing = raycast.GetCollisionPoint();
+		gun.PlayShootEffects(hit_thing);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]

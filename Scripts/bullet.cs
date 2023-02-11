@@ -16,8 +16,6 @@ public partial class bullet : RigidBody3D
 	public bool shoot = false;
 
 
-	private MultiplayerSynchronizer mpSync;
-
 	public bullet () {
 		
 	}
@@ -33,8 +31,6 @@ public partial class bullet : RigidBody3D
 
 	public override void _Ready()
 	{
-		mpSync = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
-		mpSync.SetMultiplayerAuthority(sourcePlayer.GetMultiplayerAuthority());
 		this.TopLevel = true;
 	}
 
@@ -57,8 +53,6 @@ public partial class bullet : RigidBody3D
 			GD.Print("receive damage being sent to: " + peerID);
 			hit_player.RpcId(peerID, "ReceiveDamage", damage); // this should send a param that tells the client how much damage.
 			GD.Print(Position);
-			mpSync.PublicVisibility = false;
-			mpSync.UpdateVisibility();
 			QueueFree();
 			GD.Print("Died because hit player");
 		} else {

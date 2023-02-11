@@ -97,7 +97,7 @@ texture = ExtResource("2_p01gf")
 stretch_mode = 5
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Player_Controller.tscn", "res://Scenes/bullet.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/Player_Controller.tscn")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/main menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
