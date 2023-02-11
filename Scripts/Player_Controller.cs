@@ -48,7 +48,6 @@ public partial class Player_Controller : CharacterBody3D
 			RotateY((float)(Math.PI / 180.0 * (-mouse.Relative.X * mouseSensitivity)));
 			head.RotateX((float)(Math.PI / 180.0 * (-mouse.Relative.Y * mouseSensitivity)));
 			head.Rotation = new Vector3((Math.Clamp(head.Rotation.X, (float)(Math.PI / 180.0 * -89),(float)(Math.PI / 180.0 * 89))), head.Rotation.Y, head.Rotation.Z);
-
 		}
 
 		if (Input.IsActionJustPressed("shoot") && gun.CanShoot()) {
@@ -56,7 +55,6 @@ public partial class Player_Controller : CharacterBody3D
 			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
 				Vector3 hit_thing = raycast.GetCollisionPoint();
-
 
 				/*
 				GD.Print("player controller receive shoot");

@@ -31,7 +31,7 @@ public partial class projectile_weapon : Node3D
 		anim.Stop();
 		anim.Play("shoot");
 		emitter.LookAt(pos);
-		emitter.EmitParticle(GetNode<Node3D>("muzzle_point").Transform, new Vector3(0,0,1), new Color(0,0,0), new Color(0,0,0), (uint)GpuParticles3D.EmitFlags.Velocity);
+		emitter.EmitParticle(GetNode<Node3D>("gun_model/muzzle_point").Transform, new Vector3(0,0,1), new Color(0,0,0), new Color(0,0,0), (uint)GpuParticles3D.EmitFlags.Velocity);
 	}
 
 	public bool CanShoot() {
