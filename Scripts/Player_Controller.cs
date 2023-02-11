@@ -61,35 +61,7 @@ public partial class Player_Controller : CharacterBody3D
 			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
 			if (raycast.IsColliding()) {
 				Vector3 hit_thing = raycast.GetCollisionPoint();
-
-				/*
-				GD.Print("player controller receive shoot");
-				bullet b = (bullet)bulletScene.Instantiate();
-				b.setValues(this, gun, 10, 10);
-				gun.GetNode<Node3D>("gun_model/muzzle_point").AddChild(b);
-				b.LookAt(hit_thing);
-				b.shoot = true;
-				*/
-
-				GD.Print(hit_thing + " collision point");
 				gun.ShootBullet(hit_thing);
-				
-
-				//gun.ShootAt(hit_thing.position)
-				
-				//execute command packet or tell gun to shoot or something
-				//this should send the hit_thing to the gun for it to figure out the angle at which to fire it's bullet
-				//or fire it's raycast depending on the type. 
-				//the rest should be handled by the command packet
-
-				/*
-				if(hit_thing.IsClass("CharacterBody3D")) {
-					CharacterBody3D hit_player = (CharacterBody3D)hit_thing;
-					int peerID = hit_player.GetMultiplayerAuthority();
-					GD.Print("receive damage being sent to: " + peerID);
-					hit_player.RpcId(peerID, "ReceiveDamage");
-				}
-				*/
 			}
 		}
 	}

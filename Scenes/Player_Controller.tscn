@@ -25,6 +25,7 @@ properties/2/spawn = true
 properties/2/sync = true
 
 [node name="Player_Controller" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50754, 0)
 script = ExtResource("1_nb05g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -39,16 +40,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.491645, 0)
 shape = SubResource("CylinderShape3D_7ki37")
 
 [node name="Head" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400394, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.976621, 0)
 
 [node name="projectile_weapon" parent="Head" instance=ExtResource("2_fw57c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.714862, -0.27153)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.184132, -0.27153)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856003, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.325273, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-target_position = Vector3(0, 0, -50)
+target_position = Vector3(0, 0, -1000)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_v0rbh")

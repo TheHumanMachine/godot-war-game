@@ -6,15 +6,16 @@ public partial class projectile_weapon : Node3D
 {
 
 	AnimationPlayer anim;
-	GpuParticles3D emitter;
+	private PackedScene visibleBulletScene = (PackedScene)GD.Load("res://Scenes/Visible_Bullet.tscn");
+	Node3D muzzle;
 
 	public BulletCommand bulletCommand {get; set;}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		muzzle = GetNode<Node3D>("gun_model/muzzle_point");
 		anim = GetNode<AnimationPlayer>("AnimationPlayer");
-		emitter = GetNode<GpuParticles3D>("VisibleBulletEmitter");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,8 +31,13 @@ public partial class projectile_weapon : Node3D
 	public void PlayShootEffects(Vector3 pos) {
 		anim.Stop();
 		anim.Play("shoot");
-		emitter.LookAt(pos);
-		emitter.EmitParticle(GetNode<Node3D>("gun_model/muzzle_point").Transform, new Vector3(0,0,1), new Color(0,0,0), new Color(0,0,0), (uint)GpuParticles3D.EmitFlags.Velocity);
+
+		Visible_Bullet vb = (Visible_Bullet)visibleBulletScene.Instantiate();
+		muzzle.AddChild(vb);
+		vb.LookAt(pos);
+		vb.setSpeed(30);
+		vb.shoot = true;
+
 	}
 
 	public bool CanShoot() {

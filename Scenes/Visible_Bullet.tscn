@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bl3iskucjpgdb"]
+
+[ext_resource type="Script" path="res://Scenes/Visible_Bullet.cs" id="1_viieh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dj6cn"]
+resource_local_to_scene = true
+friction = 0.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_aimcv"]
+resource_local_to_scene = true
+radius = 0.05
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hvcp6"]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uuo4p"]
+radius = 0.1
+
+[node name="Visible_Bullet" type="RigidBody3D"]
+top_level = true
+collision_layer = 0
+physics_material_override = SubResource("PhysicsMaterial_dj6cn")
+gravity_scale = 0.0
+custom_integrator = true
+linear_damp_mode = 1
+script = ExtResource("1_viieh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_aimcv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_hvcp6")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_uuo4p")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
