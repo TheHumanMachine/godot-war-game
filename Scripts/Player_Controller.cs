@@ -23,12 +23,18 @@ public partial class Player_Controller : CharacterBody3D
 
 	public override void _Ready() {
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
+		
 		head = GetNode<CollisionShape3D>("Head");
+
 		//animPlayer = GetNode<AnimationPlayer>("Head/generic_gun/AnimationPlayer");
 		gun = GetNode<projectile_weapon>("Head/projectile_weapon");
+
 		healthLabel = GetNode<Label3D>("Health");
+
 		networkNumber = GetNode<Label3D>("NetworkNumber");
+		
 		SetBulletCommand(new BulletCommand(this.GetParent<MainGame>(), this, gun));
+
 		networkNumber.Text = this.Name;
 		
 		if (!IsMultiplayerAuthority())
@@ -90,10 +96,7 @@ public partial class Player_Controller : CharacterBody3D
 
 	public override void _EnterTree() {
 		SetMultiplayerAuthority(int.Parse(this.Name));
-		
-		
 	}
-
 
 	[Rpc(CallLocal = true)]
 	private void PlayShootEffects() {
