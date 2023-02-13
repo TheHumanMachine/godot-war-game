@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cr6nnvjh323v3"]
+[gd_scene load_steps=8 format=3 uid="uid://cr6nnvjh323v3"]
 
 [ext_resource type="Script" path="res://Scripts/MainGame.cs" id="1_kk554"]
 [ext_resource type="PackedScene" uid="uid://cvd7lu0n0oh6t" path="res://Scenes/map.tscn" id="2_45r7n"]
 [ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="2_p01gf"]
 [ext_resource type="Script" path="res://Scripts/Networking/PeerNetworkMananger.cs" id="4_fjmj3"]
+[ext_resource type="PackedScene" uid="uid://vijr8vcaatx" path="res://Scenes/debug_display.tscn" id="5_q4vcw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ik43"]
 bg_color = Color(0.6, 0.0235294, 0.207843, 1)
@@ -103,6 +104,9 @@ spawn_path = NodePath("..")
 
 [node name="PeerNetworkMananger" type="Node" parent="."]
 script = ExtResource("4_fjmj3")
+
+[node name="DebugDisplay" parent="." instance=ExtResource("5_q4vcw")]
+visible = false
 
 [connection signal="pressed" from="CanvasLayer/main menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/main menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

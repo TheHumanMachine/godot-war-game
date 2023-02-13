@@ -6,7 +6,9 @@ public partial class MainGame : Node
 {
 	private PanelContainer mainMenu;
 	private LineEdit addressEntry;
-	
+
+	private Control debugDisplay;
+
 	private Control hud; 
 	private ProgressBar healthbar;
 
@@ -16,6 +18,8 @@ public partial class MainGame : Node
 	public override void _Ready()
 	{
 		peerNetworkManager =  GetNode<PeerNetworkMananger>("PeerNetworkMananger");
+
+		debugDisplay = GetNode<Control>("DebugDisplay");
 		
 		hud = GetNode<Control>("CanvasLayer/HUD");
 		healthbar = GetNode<ProgressBar>("CanvasLayer/HUD/HealthBar");
@@ -29,6 +33,25 @@ public partial class MainGame : Node
 	{
 	}
 
+	public override void _UnhandledInput(InputEvent @event)
+	{
+
+		// advanced ai input processing
+		if (@event is InputEventKey eventKey){
+
+			// Toggles the debugDisplay
+			if (eventKey.Pressed && eventKey.Keycode == Key.F5){
+				debugDisplay.Visible = !debugDisplay.Visible;
+			}
+
+			// Exits the window
+			if (eventKey.Pressed && eventKey.Keycode == Key.Escape){
+				GetTree().Quit();
+			}
+		}
+
+	}
+
 	public void UpdateHealthBar(int healthValue) {
 		healthbar.Value = healthValue;
 	}
@@ -39,6 +62,8 @@ public partial class MainGame : Node
 		hud.Visible = true;
 		mainMenu.Visible = false;
 
+		debugDisplay.Visible = true;
+
 		peerNetworkManager.HostServerSetup();
 	}
 
@@ -46,6 +71,8 @@ public partial class MainGame : Node
 	{
 		hud.Visible = true;
 		mainMenu.Visible = false;
+
+		debugDisplay.Visible = true;
 
 		peerNetworkManager.OnClientConnectioned(addressEntry.Text);
 	}

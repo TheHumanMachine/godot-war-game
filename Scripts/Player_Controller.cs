@@ -145,6 +145,6 @@ public partial class Player_Controller : CharacterBody3D
 
 	public void SetBulletCommand(BulletCommand bc) {
 		gun.bulletCommand = bc;
-		GD.Print(GetMultiplayerAuthority() + " Authority set bullet command object");
+		GD.Print("Authority set bullet command object: " + GetMultiplayerAuthority());
 	}
 }

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://vijr8vcaatx"]
+
+[ext_resource type="Script" path="res://DebugDisplay.cs" id="1_vk4xk"]
+
+[node name="DebugDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_vk4xk")
+
+[node name="fpscounter" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: "
