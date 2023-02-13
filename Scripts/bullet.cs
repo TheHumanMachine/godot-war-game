@@ -47,18 +47,26 @@ public partial class bullet : RigidBody3D
 	}
 
 	private void _on_area_3d_body_entered(Node3D body) {
+
 		if (body.IsClass("CharacterBody3D")) {
+
 			CharacterBody3D hit_player = (CharacterBody3D)body;
+
 			int peerID = hit_player.GetMultiplayerAuthority();
+
 			GD.Print("receive damage being sent to: " + peerID);
+
 			hit_player.RpcId(peerID, "ReceiveDamage", damage); // this should send a param that tells the client how much damage.
+
 			GD.Print(Position);
+
 			QueueFree();
-			GD.Print("Died because hit player");
+
+			GD.Print("Bullet hit something");
 		} else {
 			GD.Print(Position);
 			QueueFree();
-			GD.Print("Died because hit something else");
+			GD.Print("Bullet hit something that wasn't a CharacterBody3D");
 		}
 	}
 
