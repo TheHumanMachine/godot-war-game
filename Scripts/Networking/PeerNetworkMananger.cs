@@ -24,6 +24,7 @@ public partial class PeerNetworkMananger : Node
 
         Multiplayer.PeerConnected += RegisterConnectedPlayer;
         Multiplayer.PeerDisconnected += UnregisterConnectedPlayer;
+        //Multiplayer.ServerDisconnected += OnServerDisconnect;
 
         RegisterConnectedPlayer(Multiplayer.GetUniqueId());
 
@@ -32,9 +33,9 @@ public partial class PeerNetworkMananger : Node
 
     public void OnClientConnectioned(string addressEntry){
         enet_peer.CreateClient(addressEntry, PORT);
-		GD.Print("enet_peer: " + enet_peer);
         Multiplayer.MultiplayerPeer = enet_peer;
     }
+
 
     private void upnpSetup() {
 
@@ -50,12 +51,13 @@ public partial class PeerNetworkMananger : Node
     private void RegisterConnectedPlayer(long peerID) {
         Player_Controller player = (Player_Controller)player_scene.Instantiate();
         player.Name = peerID.ToString();
+        GD.Print("Connected player's name..." + player.Name);
 
 		GetParent().AddChild(player);
 
         if (player.IsMultiplayerAuthority()) {
             //player.HealthSignal += UpdateHealthBar;
-            GD.Print("Multiplayer Authority " + GetMultiplayerAuthority() + " Adding Player");
+            GD.Print("Adding Player | Multiplayer Authority " + GetMultiplayerAuthority() );
         }
     }
 

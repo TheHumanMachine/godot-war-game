@@ -7,7 +7,7 @@ public partial class MainGame : Node
 	private PanelContainer mainMenu;
 	private LineEdit addressEntry;
 
-	private Control debugDisplay;
+	private DebugDisplay debugDisplay;
 
 	private Control hud; 
 	private ProgressBar healthbar;
@@ -18,8 +18,8 @@ public partial class MainGame : Node
 	public override void _Ready()
 	{
 		peerNetworkManager =  GetNode<PeerNetworkMananger>("PeerNetworkMananger");
-
-		debugDisplay = GetNode<Control>("DebugDisplay");
+	
+		debugDisplay = GetNode<DebugDisplay>("DebugDisplay");
 		
 		hud = GetNode<Control>("CanvasLayer/HUD");
 		healthbar = GetNode<ProgressBar>("CanvasLayer/HUD/HealthBar");
@@ -31,6 +31,7 @@ public partial class MainGame : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 	}
 
 	public override void _UnhandledInput(InputEvent @event)

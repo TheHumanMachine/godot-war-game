@@ -12,7 +12,6 @@ public class BulletCommand {
         this.mainGame = mainGame;
         this.sourcePlayer = sourcePlayer;
         this.gun = gun;
-        GD.Print(sourcePlayer.GetMultiplayerAuthority() + " Authority Made Bullet Command");
         muzzle_point = gun.GetNode<Node3D>("gun_model/muzzle_point");
     }
 

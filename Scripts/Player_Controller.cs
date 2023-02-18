@@ -36,12 +36,14 @@ public partial class Player_Controller : CharacterBody3D
 		SetBulletCommand(new BulletCommand(this.GetParent<MainGame>(), this, gun));
 
 		networkNumber.Text = this.Name;
+
+		healthLabel.Text = this.health.ToString();
 		
 		if (!IsMultiplayerAuthority())
 			return;
 
-
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		
 		GetNode<Camera3D>("Head/Camera3D").Current = true;
 	}
 	
@@ -57,8 +59,11 @@ public partial class Player_Controller : CharacterBody3D
 		}
 
 		if (Input.IsActionJustPressed("shoot") && gun.CanShoot()) {
+
 			Rpc(nameof(PlayShootEffects));
-			GD.Print("I FIRED: " + this.GetMultiplayerAuthority());
+
+			GD.Print("Id: " + this.GetMultiplayerAuthority() + " | action: fired gun");
+
 			if (raycast.IsColliding()) {
 				Vector3 hit_thing = raycast.GetCollisionPoint();
 				gun.ShootBullet(hit_thing);
@@ -79,8 +84,9 @@ public partial class Player_Controller : CharacterBody3D
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void ReceiveDamage(int damage) {
 		health = health - damage;
-		GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
-		GD.Print("read internally, sent from " + Multiplayer.GetRemoteSenderId());
+		GD.Print("ReceiveDamage: " + damage + " | ID: " + this.GetMultiplayerAuthority() +" | Requested by remote ID: " + Multiplayer.GetRemoteSenderId() + " | current health: " + health);
+		//GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
+		//GD.Print("read internally, sent from " + Multiplayer.GetRemoteSenderId());
 		healthLabel.Text = health.ToString();
 		Position = Vector3.Zero;
 		if (health <= 0) {
@@ -89,6 +95,13 @@ public partial class Player_Controller : CharacterBody3D
 		EmitSignal(SignalName.HealthSignal, health);
 	}
 
+	public long GetPlayerAuthority(){
+		return this.GetMultiplayerAuthority();
+	}
+
+	public bool IsPlayerMultiplayerAuthority(){
+		return IsMultiplayerAuthority();
+	}
 
 
 	public float mouseSensitivity = 0.07f;

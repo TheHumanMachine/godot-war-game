@@ -14,7 +14,6 @@ public partial class Visible_Bullet : RigidBody3D
 	public void setSpeed(int speed) {
 
 		this.speed = speed;
-		GD.Print("visible bullet set speed");
 	}
 	
 	public override void _Process(double delta)
@@ -32,14 +31,8 @@ public partial class Visible_Bullet : RigidBody3D
 	
 	private void _on_area_3d_body_entered(Node3D body)
 	{
-		GD.Print("hit something (visible bullet/)");
+		//GD.Print("Visible bullet hit something");
 		QueueFree();
 	}
+
 }
-
-
-
-
-
-
-

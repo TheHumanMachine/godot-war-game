@@ -52,24 +52,21 @@ public partial class bullet : RigidBody3D
 
 			CharacterBody3D hit_player = (CharacterBody3D)body;
 
-			int peerID = hit_player.GetMultiplayerAuthority();
+			CharacterBody3D bullet_source_player = (CharacterBody3D)sourcePlayer;
 
-			GD.Print("receive damage being sent to: " + peerID);
+			int peerID = hit_player.GetMultiplayerAuthority();
+			int sourceID = bullet_source_player.GetMultiplayerAuthority();
 
 			hit_player.RpcId(peerID, "ReceiveDamage", damage); // this should send a param that tells the client how much damage.
 
-			GD.Print(Position);
+			GD.Print("Bullet hit! | ReceiveDamage request sent by id: " + peerID +  " | Position" + Position);
 
 			QueueFree();
-
-			GD.Print("Bullet hit something");
 		} else {
-			GD.Print(Position);
 			QueueFree();
-			GD.Print("Bullet hit something that wasn't a CharacterBody3D");
+			GD.Print("Bullet hit something that wasn't a CharacterBody3D | Bullet position: " + Position);
 		}
 	}
-
 	//on collision, report damage if colliding player. Else fkin die
 
 }
