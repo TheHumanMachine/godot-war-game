@@ -1,16 +1,20 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public partial class PeerNetworkMananger : Node
 {
 
-	private PackedScene player_scene = (PackedScene)GD.Load("res://Scenes/Player_Controller.tscn");
+    [Signal]
+    public delegate void OnNetworkPlayerAddedEventHandler(long peerID);
+
 
     private LineEdit addressEntry;
     const int PORT = 9999;
     private ENetMultiplayerPeer enet_peer;
 
+    private List<INetworkPlayer> playerList = new List<INetworkPlayer>();
 
     public PeerNetworkMananger()
     {
@@ -44,22 +48,27 @@ public partial class PeerNetworkMananger : Node
         var discoverResult = upnp.Discover();
 
         var mapResult = upnp.AddPortMapping(PORT);
-
-        //GD.Print("upnp Setup executed... " + upnp.QueryExternalAddress());
     }
     
     private void RegisterConnectedPlayer(long peerID) {
-        Player_Controller player = (Player_Controller)player_scene.Instantiate();
-        player.Name = peerID.ToString();
-        GD.Print("Connected player's name..." + player.Name);
 
-        
-		GetParent().AddChild(player);
 
-        if (player.IsMultiplayerAuthority()) {
-            //player.HealthSignal += UpdateHealthBar;
-            GD.Print("Adding Player | Multiplayer Authority " + GetMultiplayerAuthority() );
-        }
+        playerList.Add(new NetworkPlayer(peerID));
+        // signal calls something in maingame update NetworkPlayer iwht name, look up object via peerID
+        EmitSignal("OnNetworkPlayerAdded", peerID);
+
+
+        // Player_Controller player = (Player_Controller)player_scene.Instantiate();
+        // player.Name = peerID.ToString();
+        // GD.Print("Connected player's name..." + player.Name);
+
+
+		//GetParent().AddChild(player);
+
+        // if (player.IsMultiplayerAuthority()) {
+        //     //player.HealthSignal += UpdateHealthBar;
+        //     GD.Print("Adding Player | Multiplayer Authority " + GetMultiplayerAuthority() );
+        // }
     }
 
     private void UnregisterConnectedPlayer(long peerID) {

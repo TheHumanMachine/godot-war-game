@@ -21,11 +21,12 @@ public partial class MainGame : Node
 	
 		debugDisplay = GetNode<DebugDisplay>("DebugDisplay");
 		
-		hud = GetNode<Control>("CanvasLayer/HUD");
-		healthbar = GetNode<ProgressBar>("CanvasLayer/HUD/HealthBar");
+		//healthbar = GetNode<ProgressBar>("CanvasLayer/HUD/HealthBar");
 
-		mainMenu = GetNode<PanelContainer>("CanvasLayer/main menu");
-		addressEntry = GetNode<LineEdit>("CanvasLayer/main menu/MarginContainer/VBoxContainer/AddressEntry");
+		mainMenu = GetNode<PanelContainer>("MainMenu/mainMenuContainer");
+		addressEntry = GetNode<LineEdit>("MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/AddressEntry");
+
+		peerNetworkManager.OnNetworkPlayerAdded += OnNetworkPlayerAdded;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,7 +61,7 @@ public partial class MainGame : Node
 
 	private void _on_host_button_pressed()
 	{
-		hud.Visible = true;
+		//hud.Visible = true;
 		mainMenu.Visible = false;
 
 		debugDisplay.Visible = true;
@@ -70,7 +71,7 @@ public partial class MainGame : Node
 
 	private void _on_join_button_pressed()
 	{
-		hud.Visible = true;
+		//hud.Visible = true;
 		mainMenu.Visible = false;
 
 		debugDisplay.Visible = true;
@@ -87,5 +88,9 @@ public partial class MainGame : Node
 		if (pc.IsMultiplayerAuthority()) {
 			pc.HealthSignal += UpdateHealthBar;
 		}
+	}
+
+	private void OnNetworkPlayerAdded(long peerID){
+		GD.Print("peerID added: " + peerID);
 	}
 }

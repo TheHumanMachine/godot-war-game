@@ -16,6 +16,7 @@ offset_bottom = 23.0
 text = "FPS: "
 
 [node name="authority" type="Label" parent="."]
+layout_mode = 0
 offset_top = 27.0
 offset_right = 40.0
 offset_bottom = 53.0

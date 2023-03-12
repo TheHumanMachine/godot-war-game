@@ -1,9 +1,63 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr6nnvjh323v3"]
+[gd_scene load_steps=5 format=3 uid="uid://cr6nnvjh323v3"]
 
 [ext_resource type="Script" path="res://Scripts/MainGame.cs" id="1_kk554"]
 [ext_resource type="PackedScene" uid="uid://cd2bdf7h6811r" path="res://Scenes/FirstPersonShooter.tscn" id="2_jggxj"]
+[ext_resource type="Script" path="res://Scripts/Networking/PeerNetworkMananger.cs" id="3_2wd46"]
+[ext_resource type="PackedScene" uid="uid://vijr8vcaatx" path="res://Scenes/debug_display.tscn" id="4_8n2q8"]
 
 [node name="MainGame" type="Node"]
 script = ExtResource("1_kk554")
 
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="mainMenuContainer" type="PanelContainer" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 398.0
+offset_top = 227.0
+offset_right = -398.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/mainMenuContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/mainMenuContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Main Menu" type="Label" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostButton" type="Button" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Address to Join Here"
+alignment = 1
+
 [node name="FirstPersonShooter" parent="." instance=ExtResource("2_jggxj")]
+
+[node name="PeerNetworkMananger" type="Node" parent="."]
+script = ExtResource("3_2wd46")
+
+[node name="DebugDisplay" parent="." instance=ExtResource("4_8n2q8")]
+visible = false
+
+[connection signal="pressed" from="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
