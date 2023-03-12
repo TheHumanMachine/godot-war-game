@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 
 public partial class PeerNetworkMananger : Node
 {
@@ -19,6 +19,15 @@ public partial class PeerNetworkMananger : Node
     public PeerNetworkMananger()
     {
 		enet_peer = new ENetMultiplayerPeer();
+    }
+
+    public void SetNetWorkPlayerName(string name, long peerID){
+         var result = playerList.Single(s => s.Authority == peerID);
+         if(result != null){
+            result.Name = name;
+            GD.Print("Newly assigned name: " + result.Name);
+         }
+
     }
 
     public void HostServerSetup(){
@@ -46,8 +55,10 @@ public partial class PeerNetworkMananger : Node
         var upnp = new Upnp();
 
         var discoverResult = upnp.Discover();
+        GD.Print("discover results: " + discoverResult);
 
         var mapResult = upnp.AddPortMapping(PORT);
+        GD.Print("map results: " + mapResult);
     }
     
     private void RegisterConnectedPlayer(long peerID) {

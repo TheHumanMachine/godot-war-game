@@ -92,5 +92,6 @@ public partial class MainGame : Node
 
 	private void OnNetworkPlayerAdded(long peerID){
 		GD.Print("peerID added: " + peerID);
+		peerNetworkManager.SetNetWorkPlayerName("player" + peerID, peerID);
 	}
 }
