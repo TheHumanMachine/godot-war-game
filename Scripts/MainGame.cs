@@ -12,11 +12,19 @@ public partial class MainGame : Node
 	private Control hud; 
 	private ProgressBar healthbar;
 
+	private PackedScene fpsScene = (PackedScene)GD.Load("res://Scenes/FirstPersonShooter.tscn");
+	private PackedScene lobbyScene = (PackedScene)GD.Load("res://Scenes/fps/lobby.tscn");
+
 	PeerNetworkMananger peerNetworkManager;
+
+	Node LobbyNode;
+
+	Node currentScene;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		
 		peerNetworkManager =  GetNode<PeerNetworkMananger>("PeerNetworkMananger");
 	
 		debugDisplay = GetNode<DebugDisplay>("DebugDisplay");
@@ -26,13 +34,22 @@ public partial class MainGame : Node
 		mainMenu = GetNode<PanelContainer>("MainMenu/mainMenuContainer");
 		addressEntry = GetNode<LineEdit>("MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/AddressEntry");
 
+		LobbyNode = lobbyScene.Instantiate();
+		
+		((Lobby)LobbyNode).RegisterPeerNetworkManager(this.peerNetworkManager);
+
 		peerNetworkManager.OnNetworkPlayerAdded += OnNetworkPlayerAdded;
+		peerNetworkManager.OnNetworkPlayerAdded += ((Lobby)LobbyNode).RegisterLobbyPlayer;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		
+	}
+
+	public void SwitchToScene(Node newScene){
+		GetTree().Root.AddChild(newScene);
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -67,6 +84,14 @@ public partial class MainGame : Node
 		debugDisplay.Visible = true;
 
 		peerNetworkManager.HostServerSetup();
+		ChangeToLobbyScene();
+	}
+
+	private void ChangeToLobbyScene(){
+		currentScene = lobbyScene.Instantiate();
+		
+		GetTree().Root.AddChild(currentScene);
+		GetTree().CurrentScene = currentScene;
 	}
 
 	private void _on_join_button_pressed()
@@ -77,6 +102,7 @@ public partial class MainGame : Node
 		debugDisplay.Visible = true;
 
 		peerNetworkManager.OnClientConnectioned(addressEntry.Text);
+		ChangeToLobbyScene();
 	}
 
 	private void _on_multiplayer_spawner_spawned(Node node) {

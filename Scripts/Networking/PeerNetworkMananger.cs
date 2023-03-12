@@ -30,6 +30,7 @@ public partial class PeerNetworkMananger : Node
 
     }
 
+
     public void HostServerSetup(){
         enet_peer.CreateServer(PORT);
         
@@ -55,31 +56,19 @@ public partial class PeerNetworkMananger : Node
         var upnp = new Upnp();
 
         var discoverResult = upnp.Discover();
-        GD.Print("discover results: " + discoverResult);
 
         var mapResult = upnp.AddPortMapping(PORT);
-        GD.Print("map results: " + mapResult);
+    }
+
+    public INetworkPlayer GetNetworkPlayer(long peerID){
+        var result = playerList.Single(s => s.Authority == peerID);
+        return result;
     }
     
     private void RegisterConnectedPlayer(long peerID) {
-
-
         playerList.Add(new NetworkPlayer(peerID));
         // signal calls something in maingame update NetworkPlayer iwht name, look up object via peerID
         EmitSignal("OnNetworkPlayerAdded", peerID);
-
-
-        // Player_Controller player = (Player_Controller)player_scene.Instantiate();
-        // player.Name = peerID.ToString();
-        // GD.Print("Connected player's name..." + player.Name);
-
-
-		//GetParent().AddChild(player);
-
-        // if (player.IsMultiplayerAuthority()) {
-        //     //player.HealthSignal += UpdateHealthBar;
-        //     GD.Print("Adding Player | Multiplayer Authority " + GetMultiplayerAuthority() );
-        // }
     }
 
     private void UnregisterConnectedPlayer(long peerID) {

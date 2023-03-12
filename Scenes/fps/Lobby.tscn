@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnvo1ox8cvcja"]
+
+[ext_resource type="Script" path="res://Scripts/FirstPersonShooter/Lobby.cs" id="1_e27vl"]
+
+[node name="Lobby" type="Node3D"]
+script = ExtResource("1_e27vl")
+
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="mainMenuContainer" type="PanelContainer" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 398.0
+offset_top = 227.0
+offset_right = -398.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/mainMenuContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/mainMenuContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Main Menu" type="Label" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Lobby
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="startbtn" type="Button" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="connectedCountLabel" type="Label" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="test" type="Label" parent="."]
+offset_left = 413.0
+offset_top = 367.0
+offset_right = 739.0
+offset_bottom = 393.0
+text = "test"

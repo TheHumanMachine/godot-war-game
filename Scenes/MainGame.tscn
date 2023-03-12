@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cr6nnvjh323v3"]
+[gd_scene load_steps=4 format=3 uid="uid://cr6nnvjh323v3"]
 
 [ext_resource type="Script" path="res://Scripts/MainGame.cs" id="1_kk554"]
-[ext_resource type="PackedScene" uid="uid://cd2bdf7h6811r" path="res://Scenes/FirstPersonShooter.tscn" id="2_jggxj"]
 [ext_resource type="Script" path="res://Scripts/Networking/PeerNetworkMananger.cs" id="3_2wd46"]
 [ext_resource type="PackedScene" uid="uid://vijr8vcaatx" path="res://Scenes/debug_display.tscn" id="4_8n2q8"]
 
@@ -40,18 +39,16 @@ vertical_alignment = 1
 
 [node name="HostButton" type="Button" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Host"
+text = "Host Lobby"
 
 [node name="JoinButton" type="Button" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Join"
+text = "Join Lobby"
 
 [node name="AddressEntry" type="LineEdit" parent="MainMenu/mainMenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Enter Address to Join Here"
 alignment = 1
-
-[node name="FirstPersonShooter" parent="." instance=ExtResource("2_jggxj")]
 
 [node name="PeerNetworkMananger" type="Node" parent="."]
 script = ExtResource("3_2wd46")
