@@ -7,7 +7,7 @@ public partial class bullet : RigidBody3D
 	[Export]
 	private Node sourcePlayer;
 	[Export]
-	private projectile_weapon gun;
+	private ProjectileWeapon gun;
 	[Export]
 	private int damage;
 	[Export]
@@ -20,12 +20,11 @@ public partial class bullet : RigidBody3D
 		
 	}
 
-	public void setValues(Node sourcePlayer, projectile_weapon gun, int damage, int speed) {
+	public void setValues(Node sourcePlayer, ProjectileWeapon gun, int damage, int speed) {
 		this.sourcePlayer = sourcePlayer;
 		this.gun = gun;
 		this.damage = damage;
 		this.speed = speed;
-		GD.Print("Bullet received shoot from setValues");
 	}
 
 

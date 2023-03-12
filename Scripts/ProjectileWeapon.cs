@@ -2,12 +2,15 @@ using Godot;
 using System;
 
 
-public partial class projectile_weapon : Node3D
+public partial class ProjectileWeapon : Node3D
 {
 
 	AnimationPlayer anim;
 	private PackedScene visibleBulletScene = (PackedScene)GD.Load("res://Scenes/Visible_Bullet.tscn");
 	Node3D muzzle;
+
+	public int bullet_speed = 300;
+	public int bullet_damage = 10;
 
 	public BulletCommand bulletCommand {get; set;}
 
@@ -21,10 +24,10 @@ public partial class projectile_weapon : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
 	public void ShootBullet(Vector3 pos) {
-		//GD.Print("Gun received shoot on authority " + this.GetMultiplayerAuthority());
 		bulletCommand.Execute(pos);
 	}
 
@@ -35,7 +38,7 @@ public partial class projectile_weapon : Node3D
 		Visible_Bullet vb = (Visible_Bullet)visibleBulletScene.Instantiate();
 		muzzle.AddChild(vb);
 		vb.LookAt(pos);
-		vb.setSpeed(30);
+		vb.setSpeed(this.bullet_speed);
 		vb.shoot = true;
 
 	}
@@ -47,5 +50,4 @@ public partial class projectile_weapon : Node3D
 	public void Animate(string animation) {
 		anim.Play(animation);
 	}
-
 }

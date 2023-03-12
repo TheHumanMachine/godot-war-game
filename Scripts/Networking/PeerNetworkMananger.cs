@@ -53,6 +53,7 @@ public partial class PeerNetworkMananger : Node
         player.Name = peerID.ToString();
         GD.Print("Connected player's name..." + player.Name);
 
+        
 		GetParent().AddChild(player);
 
         if (player.IsMultiplayerAuthority()) {

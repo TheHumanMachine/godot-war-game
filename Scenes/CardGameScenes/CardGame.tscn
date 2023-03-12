@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c413qiwu1t18u"]
+
+[ext_resource type="PackedScene" uid="uid://ceep04bdkcwer" path="res://Scenes/CardGameScenes/Card.tscn" id="1_2po5f"]
+[ext_resource type="PackedScene" uid="uid://lmgplwnkuour" path="res://Scenes/CardGameScenes/Board.tscn" id="2_6j6jj"]
+
+[node name="CardGame" type="Node3D"]
+
+[node name="Card" parent="." instance=ExtResource("1_2po5f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.664797, 0)
+
+[node name="Board" parent="." instance=ExtResource("2_6j6jj")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.95347, 0.301488, 0, -0.301488, 0.95347, 0, 0.933615, 1.02601)

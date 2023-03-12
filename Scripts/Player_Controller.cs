@@ -15,7 +15,7 @@ public partial class Player_Controller : CharacterBody3D
 
 	private Label3D networkNumber;
 
-	public projectile_weapon gun;
+	public ProjectileWeapon gun;
 
 	private int health = 100;
 
@@ -27,13 +27,13 @@ public partial class Player_Controller : CharacterBody3D
 		head = GetNode<CollisionShape3D>("Head");
 
 		//animPlayer = GetNode<AnimationPlayer>("Head/generic_gun/AnimationPlayer");
-		gun = GetNode<projectile_weapon>("Head/projectile_weapon");
+		gun = GetNode<ProjectileWeapon>("Head/projectile_weapon");
 
 		healthLabel = GetNode<Label3D>("Health");
 
 		networkNumber = GetNode<Label3D>("NetworkNumber");
 		
-		SetBulletCommand(new BulletCommand(this.GetParent<MainGame>(), this, gun));
+		SetBulletCommand(new BulletCommand(this, gun));
 
 		networkNumber.Text = this.Name;
 
@@ -61,8 +61,6 @@ public partial class Player_Controller : CharacterBody3D
 		if (Input.IsActionJustPressed("shoot") && gun.CanShoot()) {
 
 			Rpc(nameof(PlayShootEffects));
-
-			GD.Print("Id: " + this.GetMultiplayerAuthority() + " | action: fired gun");
 
 			if (raycast.IsColliding()) {
 				Vector3 hit_thing = raycast.GetCollisionPoint();
@@ -156,8 +154,11 @@ public partial class Player_Controller : CharacterBody3D
 		MoveAndSlide();
 	}
 
+
+
+	//sets bullet behavior for external modification i.e. upgrade cards. 
+	//
 	public void SetBulletCommand(BulletCommand bc) {
 		gun.bulletCommand = bc;
-		GD.Print("Authority set bullet command object: " + GetMultiplayerAuthority());
 	}
 }

@@ -1,0 +1,107 @@
+[gd_scene load_steps=7 format=3 uid="uid://cd2bdf7h6811r"]
+
+[ext_resource type="PackedScene" uid="uid://cvd7lu0n0oh6t" path="res://Scenes/map.tscn" id="1_i1y1k"]
+[ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="2_mvda8"]
+[ext_resource type="Script" path="res://Scripts/Networking/PeerNetworkMananger.cs" id="3_cas2d"]
+[ext_resource type="PackedScene" uid="uid://vijr8vcaatx" path="res://Scenes/debug_display.tscn" id="4_4ue53"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ik43"]
+bg_color = Color(0.6, 0.0235294, 0.207843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uv3w"]
+bg_color = Color(0, 1, 0, 1)
+
+[node name="FirstPersonShooter" type="Node"]
+
+[node name="map" parent="." instance=ExtResource("1_i1y1k")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="main menu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 398.0
+offset_top = 227.0
+offset_right = -398.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/main menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/main menu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Main Menu" type="Label" parent="CanvasLayer/main menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/main menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/main menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="CanvasLayer/main menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Address to Join Here"
+alignment = 1
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 423.0
+offset_top = 20.0
+offset_right = -423.0
+offset_bottom = -610.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_6ik43")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1uv3w")
+value = 100.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.03, 0.03)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("2_mvda8")
+stretch_mode = 5
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Player_Controller.tscn")
+spawn_path = NodePath("../..")
+
+[node name="PeerNetworkMananger" type="Node" parent="."]
+script = ExtResource("3_cas2d")
+
+[node name="DebugDisplay" parent="." instance=ExtResource("4_4ue53")]
+visible = false

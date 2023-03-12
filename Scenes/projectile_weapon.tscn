@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ikmdiy5coeyp"]
 
-[ext_resource type="Script" path="res://Scripts/projectile_weapon.cs" id="1_0lkp2"]
 [ext_resource type="PackedScene" uid="uid://cgawapwaw3hfq" path="res://resources/pistol.glb" id="1_47sd5"]
+[ext_resource type="Script" path="res://Scripts/ProjectileWeapon.cs" id="1_d56xj"]
 
 [sub_resource type="Animation" id="Animation_e2oic"]
 length = 0.001
@@ -113,7 +113,7 @@ _data = {
 }
 
 [node name="projectile_weapon" type="Node3D"]
-script = ExtResource("1_0lkp2")
+script = ExtResource("1_d56xj")
 
 [node name="gun_model" parent="." instance=ExtResource("1_47sd5")]
 transform = Transform3D(-1.80123e-06, -0.49758, 0.0491388, 0.5, -1.81e-06, 2.22044e-16, 1.77882e-07, 0.0491389, 0.497579, 0.5, -0.25, -0.5)
