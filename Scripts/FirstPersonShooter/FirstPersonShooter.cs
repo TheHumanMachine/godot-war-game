@@ -6,7 +6,7 @@ public partial class FirstPersonShooter : Node
 {
 
 	private PackedScene playerControllerScene = (PackedScene)GD.Load("res://Scenes/Player_Controller.tscn"); //bullet scene here
-	private List<NetworkPlayer> networkPlayers = new List<NetworkPlayer>();
+	private List<INetworkPlayer> networkPlayers = new List<INetworkPlayer>();
 	private List<Player_Controller> playerControllers = new List<Player_Controller>();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -19,7 +19,7 @@ public partial class FirstPersonShooter : Node
 	}
 
 
-	public void SetNetWorkPlayers(List<NetworkPlayer> players){
+	public void SetNetWorkPlayers(List<INetworkPlayer> players){
 		networkPlayers.AddRange(players);
 		MakePlayerControllers();
 	}

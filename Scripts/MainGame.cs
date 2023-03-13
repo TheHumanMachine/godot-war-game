@@ -40,12 +40,28 @@ public partial class MainGame : Node
 
 		peerNetworkManager.OnNetworkPlayerAdded += OnNetworkPlayerAdded;
 		peerNetworkManager.OnNetworkPlayerAdded += ((Lobby)LobbyNode).RegisterLobbyPlayer;
+
+		((Lobby)LobbyNode).OnStartFPS += SwitchToFPS;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		
+	}
+
+	//[Rpc(CallLocal = true)]
+	public void SwitchToFPS(){
+		var fpsNodeScene = (FirstPersonShooter)fpsScene.Instantiate();
+
+
+		GetTree().Root.RemoveChild(LobbyNode);
+		LobbyNode.QueueFree();
+
+		GD.Print("Switch to fps");
+		GetTree().Root.AddChild(fpsNodeScene);
+		GetTree().CurrentScene = fpsNodeScene;
+		fpsNodeScene.SetNetWorkPlayers(peerNetworkManager.ConnectedList);
 	}
 
 	public void SwitchToScene(Node newScene){

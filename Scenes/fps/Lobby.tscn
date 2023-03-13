@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnvo1ox8cvcja"]
+[gd_scene load_steps=3 format=3 uid="uid://dnvo1ox8cvcja"]
 
 [ext_resource type="Script" path="res://Scripts/FirstPersonShooter/Lobby.cs" id="1_e27vl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6qr26"]
+properties/0/path = NodePath(".:count")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:labelText")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="Lobby" type="Node3D"]
 script = ExtResource("1_e27vl")
@@ -47,5 +55,8 @@ text = "Start
 layout_mode = 2
 text = "-"
 horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_6qr26")
 
 [connection signal="pressed" from="CanvasLayer/mainContainer/MarginContainer/VBoxContainer/startbtn" to="." method="_on_startbtn_pressed"]
