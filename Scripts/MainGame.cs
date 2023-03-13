@@ -128,7 +128,7 @@ public partial class MainGame : Node
 
 		Player_Controller pc = (Player_Controller) node;
 		if (pc.IsMultiplayerAuthority()) {
-			pc.HealthSignal += UpdateHealthBar;
+			//pc.HealthSignal += UpdateHealthBar;
 		}
 	}
 

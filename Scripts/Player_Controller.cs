@@ -5,7 +5,7 @@ public partial class Player_Controller : CharacterBody3D
 {
 	
 	[Signal]
-	public delegate void HealthSignalEventHandler(int health);
+	public delegate void OnHealthChangedEventHandler(int health);
 
 	private Node3D head;
 	private AnimationPlayer animPlayer;
@@ -90,7 +90,9 @@ public partial class Player_Controller : CharacterBody3D
 		if (health <= 0) {
 			health = 100;
 		}
-		EmitSignal(SignalName.HealthSignal, health);
+		GD.Print("THIS IS HEALTH: " + health);
+		EmitSignal("OnHealthChanged", health);
+		GD.Print("Signal emitted");
 	}
 
 	public long GetPlayerAuthority(){

@@ -8,6 +8,7 @@ public partial class Lobby : Node3D
 	[Signal]
     public delegate void OnStartFPSEventHandler();
 
+
 	private Label connectedCountLabel;
 	private PeerNetworkMananger peerNetworkMananger;
 	[Export]
@@ -33,6 +34,7 @@ public partial class Lobby : Node3D
 		if(connectedCountLabel == null){ 
 			connectedCountLabel = GetNode<Label>("CanvasLayer/mainContainer/MarginContainer/VBoxContainer/connectedCountLabel");
 		}
+
 	}
 
 	private void _on_startbtn_pressed(){
