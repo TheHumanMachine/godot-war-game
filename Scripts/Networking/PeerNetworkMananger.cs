@@ -21,13 +21,20 @@ public partial class PeerNetworkMananger : Node
 		enet_peer = new ENetMultiplayerPeer();
     }
 
+    public List<INetworkPlayer> ConnectedList {get{return playerList;}}
+
     public void SetNetWorkPlayerName(string name, long peerID){
          var result = playerList.Single(s => s.Authority == peerID);
          if(result != null){
             result.Name = name;
-            GD.Print("Newly assigned name: " + result.Name);
          }
 
+    }
+
+    public void PrintConnectedPlayers(){
+        foreach(var player in playerList){
+            GD.Print(player.Name);
+        }
     }
 
 
@@ -72,7 +79,6 @@ public partial class PeerNetworkMananger : Node
     }
 
     private void UnregisterConnectedPlayer(long peerID) {
-		GD.Print("Remove player....");
         var player = GetNodeOrNull(peerID.ToString());
         if (player != null) {
             player.QueueFree();

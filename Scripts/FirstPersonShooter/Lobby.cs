@@ -7,40 +7,41 @@ public partial class Lobby : Node3D
 	// Called when the node enters the scene tree for the first time.
 	private Label connectedCountLabel;
 	private Label testLabel;
-	private List<INetworkPlayer> connectedPlayers = new List<INetworkPlayer>();
 	private PeerNetworkMananger peerNetworkMananger;
+	private int count = 0;
+	private bool newRegister = false;
 	
 	public override void _Ready()
 	{
-		connectedCountLabel = GetNode<Label>("MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/connectedCountLabel");
-		testLabel = GetNode<Label>("test");
+		connectedCountLabel = GetNode<Label>("CanvasLayer/mainContainer/MarginContainer/VBoxContainer/connectedCountLabel");
+		testLabel = GetNode<Label>("CanvasLayer/mainContainer/MarginContainer/VBoxContainer/test");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public void RegisterPeerNetworkManager(PeerNetworkMananger peerNetworkMananger){
+	public void RegisterPeerNetworkManager( ref PeerNetworkMananger peerNetworkMananger){
 		this.peerNetworkMananger = peerNetworkMananger;
 	}
 	public void RegisterLobbyPlayer(long peerID){
-		//connectedPlayers.Add(player);
-		GD.Print("Registered in Lobby peer id: " + peerID);
-		connectedPlayers.Add(peerNetworkMananger.GetNetworkPlayer(peerID));
 
-		GD.Print("connectedPlayers count: " + connectedPlayers.Count);
+
+		GD.Print("IN PEERNETWORKMANAGER CONENCTION LIST: " + peerNetworkMananger.ConnectedList.Count);
+
 
 		if(connectedCountLabel == null || testLabel == null){ ///MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/connectedCountLabel
-			connectedCountLabel = GetNode<Label>("MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/connectedCountLabel");
-			testLabel = GetNode<Label>("test");// test
+			connectedCountLabel = GetNode<Label>("CanvasLayer/mainContainer/MarginContainer/VBoxContainer/connectedCountLabel");
+			testLabel = GetNode<Label>("CanvasLayer/mainContainer/MarginContainer/VBoxContainer/test");// test
 		}
+		this.connectedCountLabel.Text = "connectedPlayers count: " + peerNetworkMananger.ConnectedList.Count;
+		peerNetworkMananger.PrintConnectedPlayers();
 
+	}
 
-		testLabel.Text = "Chantged in code...";
-		connectedCountLabel.Text = "fgsfsd: ";
-		GD.Print("label text is: " + connectedCountLabel.Text );
-		
+	private void _on_startbtn_pressed(){
+		GD.Print("In Lobby... player count for peer network mgr: " + peerNetworkMananger.ConnectedList.Count);
 	}
 
 	
 	public override void _Process(double delta)
 	{
+		//connectedCountLabel.Text = "connectedPlayers count: " + connectedPlayers.Count;
 	}
 }

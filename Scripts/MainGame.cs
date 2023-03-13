@@ -13,7 +13,7 @@ public partial class MainGame : Node
 	private ProgressBar healthbar;
 
 	private PackedScene fpsScene = (PackedScene)GD.Load("res://Scenes/FirstPersonShooter.tscn");
-	private PackedScene lobbyScene = (PackedScene)GD.Load("res://Scenes/fps/lobby.tscn");
+	private PackedScene lobbyScene = (PackedScene)GD.Load("res://Scenes/fps/Lobby.tscn");
 
 	PeerNetworkMananger peerNetworkManager;
 
@@ -36,7 +36,7 @@ public partial class MainGame : Node
 
 		LobbyNode = lobbyScene.Instantiate();
 		
-		((Lobby)LobbyNode).RegisterPeerNetworkManager(this.peerNetworkManager);
+		((Lobby)LobbyNode).RegisterPeerNetworkManager(ref this.peerNetworkManager);
 
 		peerNetworkManager.OnNetworkPlayerAdded += OnNetworkPlayerAdded;
 		peerNetworkManager.OnNetworkPlayerAdded += ((Lobby)LobbyNode).RegisterLobbyPlayer;
@@ -88,7 +88,7 @@ public partial class MainGame : Node
 	}
 
 	private void ChangeToLobbyScene(){
-		currentScene = lobbyScene.Instantiate();
+		currentScene = LobbyNode;
 		
 		GetTree().Root.AddChild(currentScene);
 		GetTree().CurrentScene = currentScene;
@@ -117,7 +117,6 @@ public partial class MainGame : Node
 	}
 
 	private void OnNetworkPlayerAdded(long peerID){
-		GD.Print("peerID added: " + peerID);
 		peerNetworkManager.SetNetWorkPlayerName("player" + peerID, peerID);
 	}
 }
