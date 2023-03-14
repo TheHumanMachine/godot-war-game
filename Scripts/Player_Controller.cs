@@ -91,10 +91,11 @@ public partial class Player_Controller : CharacterBody3D
 	private void ReceiveDamage(int damage) {
 		health = health - damage;
 		GD.Print("ReceiveDamage: " + damage + " | ID: " + this.GetMultiplayerAuthority() +" | Requested by remote ID: " + Multiplayer.GetRemoteSenderId() + " | current health: " + health);
-		Position = Vector3.Zero;
+		
 
 		if (health <= 0) {
 			health = 100;
+			Position = Vector3.Zero;
 		}
 		//GD.Print("HEALTHBAR VALUE IS: " + healthBar.Value);
 		healthBar.Value = health;

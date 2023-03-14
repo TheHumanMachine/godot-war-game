@@ -31,23 +31,36 @@ public partial class bullet : RigidBody3D
 	public override void _Ready()
 	{
 		this.TopLevel = true;
+		
 	}
 
 	public override void _Process(double delta)
 	{
-
+		
 	}
 
 	public override void _PhysicsProcess(double delta) {
+		
+		GetNode<RayCast3D>("RayCast3D").TargetPosition = new Vector3(0,0,-speed/60f);
+
 		if(shoot) {
 			ApplyImpulse(-Transform.Basis.Z * speed, Transform.Basis.Z);
 			shoot = false;
 		}
+
+		var hit = GetNode<RayCast3D>("RayCast3D").GetCollider();
+		if (hit != null && hit.IsClass(nameof(CharacterBody3D))) {
+			
+
+			_on_area_3d_body_entered((Node3D)hit);
+			
+		}
+
 	}
 
 	private void _on_area_3d_body_entered(Node3D body) {
 
-		if (body.IsClass("CharacterBody3D")) {
+		if (body.IsClass(nameof(CharacterBody3D))) {
 
 			CharacterBody3D hit_player = (CharacterBody3D)body;
 
@@ -67,6 +80,5 @@ public partial class bullet : RigidBody3D
 		}
 	}
 	//on collision, report damage if colliding player. Else fkin die
-
 }
 

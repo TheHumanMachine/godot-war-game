@@ -1,14 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://borex18g5ve5k"]
+[gd_scene load_steps=3 format=3 uid="uid://borex18g5ve5k"]
 
 [ext_resource type="Script" path="res://Scripts/bullet.cs" id="1_lep8i"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i8a0s"]
 resource_local_to_scene = true
 friction = 0.0
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bg1nt"]
-radius = 0.06
-height = 0.12
 
 [node name="bullet" type="RigidBody3D"]
 top_level = true
@@ -19,13 +15,6 @@ custom_integrator = true
 linear_damp_mode = 1
 script = ExtResource("1_lep8i")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_bg1nt")
-
-[node name="Area3D" type="Area3D" parent="."]
-collision_layer = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("CapsuleShape3D_bg1nt")
-
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 1)
+hit_from_inside = true
