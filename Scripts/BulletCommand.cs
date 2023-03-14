@@ -14,6 +14,9 @@ public class BulletCommand {
 
     public void Execute(Vector3 pos) {
         
+        // do a thing here where if the target is too close, just shoot straight out of the eyeballs. fuck it
+
+
         bullet b = (bullet)bulletScene.Instantiate();
 		b.setValues(sourcePlayer, gun, gun.bullet_damage, gun.bullet_speed);
         b.SetMultiplayerAuthority(sourcePlayer.GetMultiplayerAuthority());

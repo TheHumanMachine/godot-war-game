@@ -41,12 +41,17 @@ public partial class bullet : RigidBody3D
 
 	public override void _PhysicsProcess(double delta) {
 		
-		GetNode<RayCast3D>("RayCast3D").TargetPosition = new Vector3(0,0,-speed/60f);
+		
 
 		if(shoot) {
 			ApplyImpulse(-Transform.Basis.Z * speed, Transform.Basis.Z);
 			shoot = false;
+		} else {
+			GetNode<RayCast3D>("RayCast3D").TargetPosition = new Vector3(0,0,-speed/60);
 		}
+
+
+
 
 		var hit = GetNode<RayCast3D>("RayCast3D").GetCollider();
 		if (hit != null && hit.IsClass(nameof(CharacterBody3D))) {
@@ -54,6 +59,10 @@ public partial class bullet : RigidBody3D
 
 			_on_area_3d_body_entered((Node3D)hit);
 			
+		}
+
+		if (hit != null) {
+			GD.Print(hit);
 		}
 
 	}

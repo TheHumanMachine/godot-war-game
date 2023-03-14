@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxr1s6n0qese2"]
+[gd_scene load_steps=15 format=3 uid="uid://cxr1s6n0qese2"]
 
 [ext_resource type="Script" path="res://Scripts/Player_Controller.cs" id="1_nb05g"]
 [ext_resource type="PackedScene" uid="uid://ikmdiy5coeyp" path="res://Scenes/projectile_weapon.tscn" id="2_fw57c"]
 [ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="3_gqbtr"]
+[ext_resource type="PackedScene" uid="uid://b08i0ynqqg6yu" path="res://health_bar.tscn" id="5_5mptv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sq67c"]
 radius = 0.6
@@ -13,6 +14,9 @@ radius = 0.6
 height = 3.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7ki37"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0imvf"]
+radius = 0.0571471
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v0rbh"]
 properties/0/path = NodePath(".:position")
@@ -34,6 +38,19 @@ bg_color = Color(0.6, 0.0235294, 0.207843, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a458t"]
 bg_color = Color(0, 1, 0, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_qvx63"]
+viewport_path = NodePath("HealthBar3D/SubViewportContainer/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ttybr"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_qvx63")
+billboard_mode = 1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bs4ob"]
+viewport_path = NodePath("HealthBar3D/SubViewportContainer/SubViewport")
+
 [node name="Player_Controller" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50754, 0)
 script = ExtResource("1_nb05g")
@@ -50,7 +67,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.491645, 0)
 shape = SubResource("CylinderShape3D_7ki37")
 
 [node name="Head" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.976621, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.976621, 0.0022161)
+shape = SubResource("SphereShape3D_0imvf")
 
 [node name="projectile_weapon" parent="Head" instance=ExtResource("2_fw57c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.184132, -0.27153)
@@ -126,3 +144,30 @@ offset_right = 635.0
 offset_bottom = 43.0
 text = "Health: 100/100"
 metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030673, 2.53788, -0.0051055)
+material_override = SubResource("StandardMaterial3D_ttybr")
+billboard = 1
+texture = SubResource("ViewportTexture_bs4ob")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HealthBar3D"]
+clip_contents = true
+offset_right = 200.0
+offset_bottom = 26.0
+
+[node name="SubViewport" type="SubViewport" parent="HealthBar3D/SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_repeat = 1
+size = Vector2i(200, 26)
+size_2d_override = Vector2i(200, 26)
+render_target_update_mode = 4
+
+[node name="HealthBar" parent="HealthBar3D/SubViewportContainer/SubViewport" instance=ExtResource("5_5mptv")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 200.0
+offset_bottom = 26.0
+grow_horizontal = 1
+grow_vertical = 1
