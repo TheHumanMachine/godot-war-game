@@ -9,12 +9,10 @@ public partial class FirstPersonShooter : Node
 	private List<INetworkPlayer> networkPlayers = new List<INetworkPlayer>();
 	private List<Player_Controller> playerControllers = new List<Player_Controller>();
 
-	private ProgressBar healthBar;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		healthBar = GetNode<ProgressBar>("HUDLayer/HUD/HealthBar");
-
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,12 +20,12 @@ public partial class FirstPersonShooter : Node
 	{//HUDLayer/HUD/HealthBar
 	}
 
-	public void OnPlayerHealthChangeHandler(int health){
+	// public void OnPlayerHealthChangeHandler(int health){
 		
-		GD.Print("should be false: " + (healthBar == null));
-		healthBar.Value = health;
-		GD.Print("ONPLAYERHEALTHCHANGED IS DOING THING..." + health);
-	}
+	// 	GD.Print("should be false: " + (healthBar == null));
+	// 	healthBar.Value = health;
+	// 	GD.Print("ONPLAYERHEALTHCHANGED IS DOING THING..." + health);
+	// }
 
 
 	public void SetNetWorkPlayers(List<INetworkPlayer> players){
@@ -46,7 +44,7 @@ public partial class FirstPersonShooter : Node
 			GetParent().AddChild(playerControl);
 
 			if (playerControl.IsMultiplayerAuthority()) {
-				playerControl.OnHealthChanged += OnPlayerHealthChangeHandler;
+				//playerControl.OnHealthChanged += OnPlayerHealthChangeHandler;
 				GD.Print("Adding Player | Multiplayer Authority " + GetMultiplayerAuthority() );
 			}
 		}

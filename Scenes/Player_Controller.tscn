@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cxr1s6n0qese2"]
+[gd_scene load_steps=10 format=3 uid="uid://cxr1s6n0qese2"]
 
 [ext_resource type="Script" path="res://Scripts/Player_Controller.cs" id="1_nb05g"]
 [ext_resource type="PackedScene" uid="uid://ikmdiy5coeyp" path="res://Scenes/projectile_weapon.tscn" id="2_fw57c"]
+[ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="3_gqbtr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sq67c"]
 radius = 0.6
@@ -23,6 +24,15 @@ properties/1/sync = true
 properties/2/path = NodePath("Head:rotation")
 properties/2/spawn = true
 properties/2/sync = true
+properties/3/path = NodePath("Health:text")
+properties/3/spawn = true
+properties/3/sync = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eaj4e"]
+bg_color = Color(0.6, 0.0235294, 0.207843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a458t"]
+bg_color = Color(0, 1, 0, 1)
 
 [node name="Player_Controller" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50754, 0)
@@ -64,3 +74,55 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78032, 0)
 billboard = 1
 text = "health
 "
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="HUD" type="Control" parent="HUDLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar" type="ProgressBar" parent="HUDLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 423.0
+offset_top = 20.0
+offset_right = -423.0
+offset_bottom = -610.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_eaj4e")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a458t")
+value = 100.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HUDLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.03, 0.03)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("3_gqbtr")
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="healthLabel" type="Label" parent="HUDLayer/HUD"]
+layout_mode = 0
+offset_left = 513.0
+offset_top = 17.0
+offset_right = 635.0
+offset_bottom = 43.0
+text = "Health: 100/100"
+metadata/_edit_use_anchors_ = true

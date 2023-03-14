@@ -11,25 +11,33 @@ public partial class Player_Controller : CharacterBody3D
 	private AnimationPlayer animPlayer;
 	private GpuParticles3D muzzleFlash;
 	private RayCast3D raycast;
-	private Label3D healthLabel;
+	private Label3D healthLabel3D;
+
+	private ProgressBar healthBar;
 
 	private Label3D networkNumber;
 
+	private Label healthLabel;
+
 	public ProjectileWeapon gun;
 
+	[Export]
 	private int health = 100;
 
 	private PackedScene bulletScene = (PackedScene)GD.Load("res://Scenes/bullet.tscn");
 
 	public override void _Ready() {
+		healthBar = GetNode<ProgressBar>("HUDLayer/HUD/HealthBar");
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
+
+		healthLabel = GetNode<Label>("HUDLayer/HUD/healthLabel");
 		
 		head = GetNode<CollisionShape3D>("Head");
 
 		//animPlayer = GetNode<AnimationPlayer>("Head/generic_gun/AnimationPlayer");
 		gun = GetNode<ProjectileWeapon>("Head/projectile_weapon");
 
-		healthLabel = GetNode<Label3D>("Health");
+		healthLabel3D = GetNode<Label3D>("Health");
 
 		networkNumber = GetNode<Label3D>("NetworkNumber");
 		
@@ -37,13 +45,13 @@ public partial class Player_Controller : CharacterBody3D
 
 		networkNumber.Text = this.Name;
 
-		healthLabel.Text = this.health.ToString();
+		healthLabel3D.Text = this.health.ToString();
 		
 		if (!IsMultiplayerAuthority())
 			return;
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		
+		GetNode<CanvasLayer>("HUDLayer").Visible = true;
 		GetNode<Camera3D>("Head/Camera3D").Current = true;
 	}
 	
@@ -83,16 +91,17 @@ public partial class Player_Controller : CharacterBody3D
 	private void ReceiveDamage(int damage) {
 		health = health - damage;
 		GD.Print("ReceiveDamage: " + damage + " | ID: " + this.GetMultiplayerAuthority() +" | Requested by remote ID: " + Multiplayer.GetRemoteSenderId() + " | current health: " + health);
-		//GD.Print("I have received damage: " + this.GetMultiplayerAuthority() + " I have " + health + " Health");
-		//GD.Print("read internally, sent from " + Multiplayer.GetRemoteSenderId());
-		healthLabel.Text = health.ToString();
 		Position = Vector3.Zero;
+
 		if (health <= 0) {
 			health = 100;
 		}
-		GD.Print("THIS IS HEALTH: " + health);
+		//GD.Print("HEALTHBAR VALUE IS: " + healthBar.Value);
+		healthBar.Value = health;
+		healthLabel.Text = "Health: " + health + "/100";
+		healthLabel3D.Text = health.ToString();
+
 		EmitSignal("OnHealthChanged", health);
-		GD.Print("Signal emitted");
 	}
 
 	public long GetPlayerAuthority(){

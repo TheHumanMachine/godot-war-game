@@ -9,7 +9,7 @@ public partial class ProjectileWeapon : Node3D
 	private PackedScene visibleBulletScene = (PackedScene)GD.Load("res://Scenes/Visible_Bullet.tscn");
 	Node3D muzzle;
 
-	public int bullet_speed = 300;
+	public int bullet_speed = 30;
 	public int bullet_damage = 10;
 
 	public BulletCommand bulletCommand {get; set;}

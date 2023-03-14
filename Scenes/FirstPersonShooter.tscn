@@ -1,58 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd2bdf7h6811r"]
+[gd_scene load_steps=3 format=3 uid="uid://cd2bdf7h6811r"]
 
 [ext_resource type="PackedScene" uid="uid://cvd7lu0n0oh6t" path="res://Scenes/map.tscn" id="1_i1y1k"]
 [ext_resource type="Script" path="res://Scripts/FirstPersonShooter/FirstPersonShooter.cs" id="1_ylaye"]
-[ext_resource type="Texture2D" uid="uid://x8xcyvmv51n4" path="res://resources/circle_05.png" id="2_mvda8"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ik43"]
-bg_color = Color(0.6, 0.0235294, 0.207843, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uv3w"]
-bg_color = Color(0, 1, 0, 1)
 
 [node name="FirstPersonShooter" type="Node"]
 script = ExtResource("1_ylaye")
 
 [node name="map" parent="." instance=ExtResource("1_i1y1k")]
-
-[node name="HUDLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" type="Control" parent="HUDLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="HealthBar" type="ProgressBar" parent="HUDLayer/HUD"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 423.0
-offset_top = 20.0
-offset_right = -423.0
-offset_bottom = -610.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_6ik43")
-theme_override_styles/fill = SubResource("StyleBoxFlat_1uv3w")
-value = 100.0
-show_percentage = false
-
-[node name="TextureRect" type="TextureRect" parent="HUDLayer/HUD"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.03, 0.03)
-pivot_offset = Vector2(576, 324)
-texture = ExtResource("2_mvda8")
-stretch_mode = 5
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Player_Controller.tscn")
