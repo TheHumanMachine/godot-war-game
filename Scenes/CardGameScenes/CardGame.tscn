@@ -1,14 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://c413qiwu1t18u"]
+[gd_scene load_steps=4 format=3 uid="uid://c413qiwu1t18u"]
 
 [ext_resource type="PackedScene" uid="uid://ceep04bdkcwer" path="res://Scenes/CardGameScenes/Card.tscn" id="1_2po5f"]
+[ext_resource type="Script" path="res://Scripts/CardGame/CardGame.cs" id="1_xwn3c"]
 [ext_resource type="PackedScene" uid="uid://lmgplwnkuour" path="res://Scenes/CardGameScenes/Board.tscn" id="2_6j6jj"]
 
 [node name="CardGame" type="Node3D"]
+script = ExtResource("1_xwn3c")
 
 [node name="Card" parent="." instance=ExtResource("1_2po5f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.664797, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56063, 0)
 
 [node name="Board" parent="." instance=ExtResource("2_6j6jj")]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.95347, 0.301488, 0, -0.301488, 0.95347, 0, 0.933615, 1.02601)
+[node name="PlayerOnePosition" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+
+[node name="PlayerTwoPosition" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
+
+[node name="SpectatorPosition" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15095, 1.82508, -0.463438)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/CardGameScenes/CardGamePlayer.tscn")
+spawn_path = NodePath("..")

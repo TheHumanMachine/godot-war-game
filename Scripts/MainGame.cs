@@ -14,10 +14,12 @@ public partial class MainGame : Node
 
 	private PackedScene fpsScene = (PackedScene)GD.Load("res://Scenes/FirstPersonShooter.tscn");
 	private PackedScene lobbyScene = (PackedScene)GD.Load("res://Scenes/fps/Lobby.tscn");
+	private PackedScene CardGameScene = (PackedScene)GD.Load("res://Scenes/CardGameScenes/CardGame.tscn");
 
 	PeerNetworkMananger peerNetworkManager;
 
 	Node LobbyNode;
+	CardGame CardGame;
 
 	Node currentScene;
 
@@ -28,8 +30,6 @@ public partial class MainGame : Node
 		peerNetworkManager =  GetNode<PeerNetworkMananger>("PeerNetworkMananger");
 	
 		debugDisplay = GetNode<DebugDisplay>("DebugDisplay");
-		
-		//healthbar = GetNode<ProgressBar>("CanvasLayer/HUD/HealthBar");
 
 		mainMenu = GetNode<PanelContainer>("MainMenu/mainMenuContainer");
 		addressEntry = GetNode<LineEdit>("MainMenu/mainMenuContainer/MarginContainer/VBoxContainer/AddressEntry");
@@ -41,7 +41,8 @@ public partial class MainGame : Node
 		peerNetworkManager.OnNetworkPlayerAdded += OnNetworkPlayerAdded;
 		peerNetworkManager.OnNetworkPlayerAdded += ((Lobby)LobbyNode).RegisterLobbyPlayer;
 
-		((Lobby)LobbyNode).OnStartFPS += SwitchToFPS;
+		//((Lobby)LobbyNode).OnStartFPS += SwitchToFPS;
+		((Lobby)LobbyNode).OnStartFPS += SwitchToCardGame;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,14 +59,34 @@ public partial class MainGame : Node
 		GetTree().Root.RemoveChild(LobbyNode);
 		LobbyNode.QueueFree();
 
-		GD.Print("Switch to fps");
+		
 		GetTree().Root.AddChild(fpsNodeScene);
 		GetTree().CurrentScene = fpsNodeScene;
 		fpsNodeScene.SetNetWorkPlayers(peerNetworkManager.ConnectedList);
 	}
 
+	public void SwitchToCardGame() { 
+		CardGame = (CardGame)CardGameScene.Instantiate();
+		GD.Print("Switch to card game");
+
+		GetTree().Root.AddChild(CardGame);
+		GetTree().Root.RemoveChild(LobbyNode);
+		LobbyNode.QueueFree();
+		GetTree().CurrentScene = CardGame;
+
+
+		GD.Print("connected boys: ");
+		foreach(INetworkPlayer i in peerNetworkManager.ConnectedList) {
+			GD.Print(i.Authority);
+		}
+		
+
+		CardGame.SetNetWorkPlayers(peerNetworkManager.ConnectedList);
+	}
+
 	public void SwitchToScene(Node newScene){
 		GetTree().Root.AddChild(newScene);
+		GetTree().CurrentScene = newScene;
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -86,11 +107,6 @@ public partial class MainGame : Node
 		}
 
 	}
-
-	public void UpdateHealthBar(int healthValue) {
-		healthbar.Value = healthValue;
-	}
-
 
 	private void _on_host_button_pressed()
 	{
@@ -121,16 +137,6 @@ public partial class MainGame : Node
 		ChangeToLobbyScene();
 	}
 
-	private void _on_multiplayer_spawner_spawned(Node node) {
-		if(!node.IsClass("Player_Controller")) {
-			return;
-		}
-
-		Player_Controller pc = (Player_Controller) node;
-		if (pc.IsMultiplayerAuthority()) {
-			//pc.HealthSignal += UpdateHealthBar;
-		}
-	}
 
 	private void OnNetworkPlayerAdded(long peerID){
 		peerNetworkManager.SetNetWorkPlayerName("player" + peerID, peerID);

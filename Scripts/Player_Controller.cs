@@ -62,7 +62,6 @@ public partial class Player_Controller : CharacterBody3D
 		if (!IsMultiplayerAuthority())
 			return;
 
-		
 		if (@event is InputEventMouseMotion mouse) {
 			RotateY((float)(Math.PI / 180.0 * (-mouse.Relative.X * mouseSensitivity)));
 			head.RotateX((float)(Math.PI / 180.0 * (-mouse.Relative.Y * mouseSensitivity)));

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://coyy5mjqao0sk"]
+
+[ext_resource type="Script" path="res://Scripts/CardGame/CardGamePlayer.cs" id="1_rb5ax"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_43085"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+
+[node name="CardGamePlayer" type="Node3D"]
+script = ExtResource("1_rb5ax")
+
+[node name="CardHand" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5801)
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_43085")

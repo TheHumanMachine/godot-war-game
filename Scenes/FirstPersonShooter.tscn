@@ -10,4 +10,4 @@ script = ExtResource("1_ylaye")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Player_Controller.tscn")
-spawn_path = NodePath("../..")
+spawn_path = NodePath("..")

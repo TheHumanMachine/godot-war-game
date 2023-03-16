@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class FirstPersonShooter : Node
 {
 
-	private PackedScene playerControllerScene = (PackedScene)GD.Load("res://Scenes/Player_Controller.tscn"); //bullet scene here
+	private PackedScene playerControllerScene = (PackedScene)GD.Load("res://Scenes/Player_Controller.tscn");
 	private List<INetworkPlayer> networkPlayers = new List<INetworkPlayer>();
 	private List<Player_Controller> playerControllers = new List<Player_Controller>();
 
@@ -41,7 +41,7 @@ public partial class FirstPersonShooter : Node
 			
 			GD.Print("Connected player's name..." + playerControl.Name);
 
-			GetParent().AddChild(playerControl);
+			AddChild(playerControl);
 
 			if (playerControl.IsMultiplayerAuthority()) {
 				//playerControl.OnHealthChanged += OnPlayerHealthChangeHandler;
