@@ -14,6 +14,7 @@ public partial class Player_Controller : CharacterBody3D
 	private Label3D healthLabel3D;
 
 	private ProgressBar healthBar;
+	private ProgressBar healthBarAboveHead;
 
 	private Label3D networkNumber;
 
@@ -27,7 +28,11 @@ public partial class Player_Controller : CharacterBody3D
 	private PackedScene bulletScene = (PackedScene)GD.Load("res://Scenes/bullet.tscn");
 
 	public override void _Ready() {
+		GetNode<SubViewport>("HealthBar3D/SubViewport");
+
+
 		healthBar = GetNode<ProgressBar>("HUDLayer/HUD/HealthBar");
+		healthBarAboveHead = GetNode<ProgressBar>("HealthBar3D/SubViewport/HealthBar");
 		raycast = GetNode<RayCast3D>("Head/Camera3D/RayCast3D");
 
 		healthLabel = GetNode<Label>("HUDLayer/HUD/healthLabel");
@@ -42,9 +47,7 @@ public partial class Player_Controller : CharacterBody3D
 		networkNumber = GetNode<Label3D>("NetworkNumber");
 		
 		SetBulletCommand(new BulletCommand(this, gun));
-
 		networkNumber.Text = this.Name;
-
 		healthLabel3D.Text = this.health.ToString();
 		
 		if (!IsMultiplayerAuthority())
@@ -97,12 +100,14 @@ public partial class Player_Controller : CharacterBody3D
 			health = 100;
 			Position = Vector3.Zero;
 		}
-		//GD.Print("HEALTHBAR VALUE IS: " + healthBar.Value);
+		
 		healthBar.Value = health;
-		healthLabel.Text = "Health: " + health + "/100";
-		healthLabel3D.Text = health.ToString();
+		
+		GD.Print("HEALTHBAR VALUE IS: " + healthBarAboveHead.Value);
 
-		EmitSignal("OnHealthChanged", health);
+		healthLabel.Text = "Health: " + health + "/100";
+		
+
 	}
 
 	public long GetPlayerAuthority(){
@@ -120,6 +125,13 @@ public partial class Player_Controller : CharacterBody3D
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+
+	public override void _Process(double delta) {
+		healthBarAboveHead.Value = health;
+		healthLabel3D.Text = health.ToString();
+
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -166,7 +178,9 @@ public partial class Player_Controller : CharacterBody3D
 		MoveAndSlide();
 	}
 
-
+	public RayCast3D GetLookRaycast() {
+		return raycast;
+	}
 
 	//sets bullet behavior for external modification i.e. upgrade cards. 
 	//
