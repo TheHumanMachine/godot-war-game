@@ -75,7 +75,7 @@ public partial class MainGame : Node
 		GetTree().CurrentScene = CardGame;
 
 
-		GD.Print("connected boys: ");
+		GD.Print("connected boys on authority " + IsMultiplayerAuthority() + ": ");
 		foreach(INetworkPlayer i in peerNetworkManager.ConnectedList) {
 			GD.Print(i.Authority);
 		}

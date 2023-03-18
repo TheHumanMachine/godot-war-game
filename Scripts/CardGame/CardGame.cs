@@ -29,11 +29,13 @@ public partial class CardGame : Node3D
 	private void MakeCardGamePlayers(){
 		int playerNum = 0;
 
+
+
 		foreach(var player in networkPlayers){
 			GD.Print(playerNum + " is " + player.Authority);
 			CardGamePlayer playerControl;
 			playerControl = ((CardGamePlayer)CardGamePlayerScene.Instantiate());
-			playerControl.Name = player.Authority.ToString();
+			
 			
 			switch (playerNum)
 			{
@@ -48,10 +50,10 @@ public partial class CardGame : Node3D
 					break;
 			}
 			GD.Print("Connected player's name..." + playerControl.Name);
-
+			playerControl.Name = player.Authority.ToString();
 			AddChild(playerControl);
-
-			GD.Print("looking at: 0,0,0");
+			
+			GD.Print(playerControl.Position);
 			playerControl.LookAt(new Vector3(0,0,0));
 			playerNum++;
 		}

@@ -9,12 +9,15 @@ public partial class CardGamePlayer : Node3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+		GD.Print("position from node: " + Position);
 		if (!IsMultiplayerAuthority())
 			return;
 
 		head = GetNode<Node3D>("Head");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		GetNode<Camera3D>("Head/Camera3D").Current = true;
+
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,9 +25,16 @@ public partial class CardGamePlayer : Node3D
 
 	}
 
+	public override void _EnterTree() {
+		SetMultiplayerAuthority(int.Parse(this.Name));
+	}
+
 	public override void _UnhandledInput(InputEvent @event) {
-		if (!IsMultiplayerAuthority())
+		if (!IsMultiplayerAuthority()) {
 			return;
+		}
+
+			
 
 		if (@event is InputEventMouseMotion mouse) {
 			RotateY((float)(Math.PI / 180.0 * (-mouse.Relative.X * mouseSensitivity)));

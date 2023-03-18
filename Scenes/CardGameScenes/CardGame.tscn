@@ -13,13 +13,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56063, 0)
 [node name="Board" parent="." instance=ExtResource("2_6j6jj")]
 
 [node name="PlayerOnePosition" type="Node3D" parent="."]
-transform = Transform3D(0.997826, -0.0441112, -0.0489556, 0.0586661, 0.256294, 0.964817, -0.0300122, -0.965592, 0.258325, 0, 1, 0.9711)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.5)
 
 [node name="PlayerTwoPosition" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.08766)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.5)
 
 [node name="SpectatorPosition" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15095, 1.82508, -0.463438)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.85441, 2.51538, -0.463438)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/CardGameScenes/CardGamePlayer.tscn")

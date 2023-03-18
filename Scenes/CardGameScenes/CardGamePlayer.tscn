@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://coyy5mjqao0sk"]
+[gd_scene load_steps=4 format=3 uid="uid://coyy5mjqao0sk"]
 
 [ext_resource type="Script" path="res://Scripts/CardGame/CardGamePlayer.cs" id="1_rb5ax"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wqkxu"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_43085"]
 properties/0/path = NodePath(".:position")
@@ -21,6 +23,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5801)
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.952481, 0.304598, 0, -0.304598, 0.952481, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.25, 0, 0, 0, 0.23812, -0.0761495, 0, 0.0761495, 0.23812, 0, -0.0327676, 0.102465)
+mesh = SubResource("BoxMesh_wqkxu")
+skeleton = NodePath("../..")
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 
