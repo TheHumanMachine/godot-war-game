@@ -9,6 +9,9 @@ properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
+properties/2/path = NodePath("Head:rotation")
+properties/2/spawn = true
+properties/2/sync = true
 
 [node name="CardGamePlayer" type="Node3D"]
 script = ExtResource("1_rb5ax")
@@ -17,6 +20,7 @@ script = ExtResource("1_rb5ax")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5801)
 
 [node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.952481, 0.304598, 0, -0.304598, 0.952481, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 

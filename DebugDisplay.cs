@@ -14,7 +14,6 @@ public partial class DebugDisplay : Control
 		authority = GetNode<Label>("authority");
 	}
 
-
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

@@ -46,11 +46,7 @@ public partial class CardGame : Node3D
 				default:
 					playerControl.Position = GetNode<Node3D>("SpectatorPosition").Position;
 					break;
-
 			}
-
-			
-
 			GD.Print("Connected player's name..." + playerControl.Name);
 
 			AddChild(playerControl);

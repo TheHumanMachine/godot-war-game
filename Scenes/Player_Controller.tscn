@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cudvi38h5fdh0"]
+[gd_scene load_steps=14 format=3 uid="uid://cxr1s6n0qese2"]
 
 [ext_resource type="Script" path="res://Scripts/Player_Controller.cs" id="1_nb05g"]
 [ext_resource type="PackedScene" uid="uid://ikmdiy5coeyp" path="res://Scenes/projectile_weapon.tscn" id="2_fw57c"]
@@ -73,6 +73,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.184132, -0.27153)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.325273, 0)
+current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, 0, -1000)
